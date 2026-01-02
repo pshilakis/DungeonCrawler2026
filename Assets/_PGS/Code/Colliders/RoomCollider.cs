@@ -33,7 +33,7 @@ namespace PGS
 
 		private void OnTriggerEnter(Collider other)
 		{
-			if (TryGetComponent<Character>(out Character character))
+			if (other.TryGetComponent<Character>(out Character character))
 			{
 				OnCharacterEnter?.Invoke(character);
 			}
@@ -41,7 +41,7 @@ namespace PGS
 
 		private void OnTriggerExit(Collider other)
 		{
-			if (TryGetComponent<Character>(out Character character))
+			if (other.TryGetComponent<Character>(out Character character))
 			{
 				OnCharacterExit?.Invoke(character);
 			}
