@@ -6,6 +6,8 @@ namespace PGS
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static T instance;
+
+        [ColoredHeader("Generic Singleton Settings", 14, true)]
         [SerializeField] private bool dontDestroyOnLoad = true;
 
         public static T Instance

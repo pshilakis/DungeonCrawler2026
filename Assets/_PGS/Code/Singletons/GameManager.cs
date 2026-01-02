@@ -6,19 +6,24 @@ namespace PGS
 {
     public class GameManager : Singleton<GameManager>
     {
-		[Header("System Prefab References")]
+		[ColoredHeader("System Prefab References", 14, true)]
+		[SerializeField] private SceneLoader sceneLoaderPrefab;
 		[SerializeField] private EventSystem eventSystemPrefab;
 
 		protected override void Awake()
 		{
 			base.Awake();
 
-			//Setup Input
-			CommonUtilities.AddComponentToNewGameObject<InputRelay>(this.transform, nameof(InputRelay));
+			InstantiateSystemPrefab(sceneLoaderPrefab); //Setup SceneLoader
+			InstantiateSystemPrefab(eventSystemPrefab); //Setup EventSystem for UI Input
+			CommonUtilities.AddComponentToNewGameObject<InputRelay>(this.transform, nameof(InputRelay)); //Setup Input
 
-			//Setup EventSystem for UI Input
-			GameObject obj = GameObject.Instantiate(eventSystemPrefab.gameObject);
-			obj.name = nameof(EventSystem);
+		}
+
+		private void InstantiateSystemPrefab(Component component)
+		{
+			GameObject obj = GameObject.Instantiate(component.gameObject);
+			obj.name = component.GetType().Name;
 			CommonUtilities.SetNewParent(obj, this.transform);
 		}
     }
