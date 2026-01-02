@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace PGS
@@ -13,16 +14,26 @@ namespace PGS
         {
             Input = InputReceiver.CreateNewInputReceiverInstance();
             Input.Initialize();
+
+            Input.OnPointerDown += PointerClick;
+            Input.OnPointerUp += PointerRelease;
+
             Input.Controls.Player.Enable(); //Move this eventually to when we actually need to start the controls in certain game states
         }
-        private void Start()
+
+		private void PointerClick(TimeSpan time)
+		{
+            Debug.Log($"press @ {time}");
+		}
+
+        private void PointerRelease(TimeSpan time)
         {
-            InitializeInput();
+            Debug.Log($"release @ {time}");
         }
 
-        private void Update()
+		private void Start()
         {
-            //m_MousePosition = GetWorldGridPointUnderCursor();
+            InitializeInput();
         }
 
         private Vector3Int GetWorldGridPointUnderCursor()
@@ -58,8 +69,7 @@ namespace PGS
 
             Vector3 offset = new Vector3(0.5f, -0.5f, 0.5f);
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(WorldGridPosition + offset, Vector3.one);
-        
+            Gizmos.DrawWireCube(WorldGridPosition + offset, Vector3.one);        
 		}
 	}
 }

@@ -9,6 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 443121317888636198}
+  - component: {fileID: 3160152487383952937}
+  - component: {fileID: 5963676745131774456}
+  - component: {fileID: 8003445223984934891}
+  - component: {fileID: 4143335662146800268}
   m_Layer: 0
   m_Name: Block_00_Test
   m_TagString: Untagged
@@ -32,6 +36,68 @@ Transform:
   - {fileID: 3478584394784729016}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3160152487383952937
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5968493380417007861}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0.5, y: -0.5, z: 0.5}
+--- !u!114 &5963676745131774456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5968493380417007861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f038329a16fa254e91f43fa9e04d766, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PGS.RoomCollider
+  m_Collider: {fileID: 3160152487383952937}
+--- !u!114 &8003445223984934891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5968493380417007861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a69341a7c5d23341ae53903c2ef0b8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PGS.BoxSelectionCollider
+  m_Collider: {fileID: 0}
+--- !u!114 &4143335662146800268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5968493380417007861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11b38aee02915124391514779c84e9f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PGS.Room
+  size: {x: 1, y: 1}
+  m_RoomCollider: {fileID: 5963676745131774456}
+  m_SelectionCollider: {fileID: 0}
 --- !u!1 &6470333012760833868
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,7 +109,6 @@ GameObject:
   - component: {fileID: 3478584394784729016}
   - component: {fileID: 2628880994831114074}
   - component: {fileID: 2214354907322662342}
-  - component: {fileID: 2365549489661706293}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -123,24 +188,3 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2365549489661706293
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6470333012760833868}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
