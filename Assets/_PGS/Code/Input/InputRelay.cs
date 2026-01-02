@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace PGS
 {
-    public class InputManager : MonoBehaviour
+    public class InputRelay : MonoBehaviour
     {
         public InputReceiver Input { get; private set; }
 
@@ -18,7 +18,9 @@ namespace PGS
             Input.OnPointerDown += PointerClick;
             Input.OnPointerUp += PointerRelease;
 
-            Input.Controls.Player.Enable(); //Move this eventually to when we actually need to start the controls in certain game states
+			//Move these eventually to when we actually need to start the controls in certain game states
+			Input.Controls.Player.Enable(); 
+            Input.Controls.UI.Enable();
         }
 
 		private void PointerClick(TimeSpan time)

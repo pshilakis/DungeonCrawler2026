@@ -10,7 +10,14 @@ namespace PGS
 
 		protected virtual void OnValidate()
 		{
-			//Clamp the size values to minimum of 1 so we can't set invalid values in Editor
+			ClampSize();
+		}
+
+		/// <summary>
+		/// Clamp the size values to minimum of 1 so we can't set invalid values in Editor
+		/// </summary>
+		private void ClampSize()
+		{
 			size.x = Mathf.Max(size.x, 1);
 			size.y = Mathf.Max(size.y, 1);
 		}

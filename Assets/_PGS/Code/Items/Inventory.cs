@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace PGS
 {
-    public class Character : MonoBehaviour
+    public class Inventory : MonoBehaviour
     {
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()

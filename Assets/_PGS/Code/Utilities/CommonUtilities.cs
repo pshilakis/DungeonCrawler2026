@@ -9,41 +9,6 @@ namespace PGS.Utilities
 	/// </summary>
 	public static class CommonUtilities
 	{
-		//public static void Log(string message, Object sender = null)
-		//{
-		//	if (sender == null)
-		//	{
-		//		Debug.Log(message);
-		//	}
-		//	else
-		//	{
-		//		Debug.Log(message, sender);
-		//	}
-		//}
-
-		//public static void LogWarning(string message, Object sender = null)
-		//{
-		//	if (sender == null)
-		//	{
-		//		Debug.LogWarning(message);
-		//	}
-		//	else
-		//	{
-		//		Debug.LogWarning(message, sender);
-		//	}
-		//}
-
-		//public static void LogError(string message, Object sender = null)
-		//{
-		//	if (sender == null)
-		//	{
-		//		Debug.LogError(message);
-		//	}
-		//	else
-		//	{
-		//		Debug.LogError(message, sender);
-		//	}
-		//}
 		public static GameObject CreateNewGameObject(string name, Transform parent = null, bool resetTransform = true)
 		{
 			GameObject go = new GameObject();
