@@ -23,7 +23,7 @@ namespace PGS
 		private void InstantiateSystemPrefab(Component component)
 		{
 			GameObject obj = GameObject.Instantiate(component.gameObject);
-			obj.name = component.GetType().Name;
+			obj.name = $"> {component.GetType().Name}";
 			CommonUtilities.SetNewParent(obj, this.transform);
 		}
     }
