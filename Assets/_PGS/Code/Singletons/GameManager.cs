@@ -10,6 +10,8 @@ namespace PGS
 		[SerializeField] private SceneLoader sceneLoaderPrefab;
 		[SerializeField] private EventSystem eventSystemPrefab;
 
+		[SerializeField] private SceneData[] testSceneLoads;
+
 		protected override void Awake()
 		{
 			base.Awake();

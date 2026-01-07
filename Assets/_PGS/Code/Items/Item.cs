@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace PGS
 {
-    [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/Item")]
+    [CreateAssetMenu(fileName = "Item", menuName = "PGS/Scriptable Objects/Item")]
     public class Item : ScriptableObject
     {
         [SerializeField] private string m_Name;
