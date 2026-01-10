@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a2b2e2a57dc6564592af3757e6e29c5, type: 3}
   m_Name: Lobby Scene
   m_EditorClassIdentifier: Assembly-CSharp::PGS.SceneData
-  sceneAsset: {fileID: 0}
+  sceneAsset: {fileID: 102900000, guid: c11369c772506464b9fe848f4dba5493, type: 3}
   _sceneDescription: 
   _sceneRef:
-    _sceneName: 
-    _sceneAssetGUID: 
-    _scenePath: 
+    _sceneName: Lobby
+    _sceneAssetGUID: c11369c772506464b9fe848f4dba5493
+    _scenePath: Assets/_PGS/Game/Scenes/Lobby.unity
     scene: {}
     status: 0

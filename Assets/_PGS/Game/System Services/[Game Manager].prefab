@@ -47,3 +47,5 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   sceneLoaderPrefab: {fileID: 5804260589162466263, guid: 632da9f6d774dac4c9919182936c1cfd, type: 3}
   eventSystemPrefab: {fileID: 4720919701848734516, guid: d28d76b9826bcb9478299b3315a82723, type: 3}
+  testSceneLoads:
+  - {fileID: 11400000, guid: 45883fe92df96d348be63bebc622aa90, type: 2}

@@ -121,7 +121,7 @@ namespace PGS
 	}
 
 	[CreateAssetMenu(fileName = "New SceneData", menuName = "PGS/Scriptable Objects/Scenes/Scene Data")]
-	public class SceneData : ScriptableObject
+	public class SceneData : ScriptableObject, ISerializationCallbackReceiver
 	{
 		[SerializeField] private SceneAsset sceneAsset;
 		[SerializeField] [Multiline] private string _sceneDescription;
@@ -133,10 +133,12 @@ namespace PGS
 			private set { _sceneRef = value; }
 		}
 
-		private void OnValidate()
+		public void OnBeforeSerialize()
 		{
 			SerializeSceneData();
 		}
+
+		public void OnAfterDeserialize() { } //Not needed
 
 		private void SerializeSceneData()
 		{

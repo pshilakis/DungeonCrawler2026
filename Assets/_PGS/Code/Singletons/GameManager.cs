@@ -19,6 +19,7 @@ namespace PGS
 			InstantiateSystemPrefab(sceneLoaderPrefab); //Setup SceneLoader
 			InstantiateSystemPrefab(eventSystemPrefab); //Setup EventSystem for UI Input
 			CommonUtilities.AddComponentToNewGameObject<InputRelay>(this.transform, nameof(InputRelay)); //Setup Input
+			SceneUtilities.LoadScenes(testSceneLoads);
 
 		}
 
