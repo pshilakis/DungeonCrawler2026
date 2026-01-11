@@ -5,7 +5,7 @@ namespace PGS
 {
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        private static T instance;
+        private static T m_Instance;
 
         [ColoredHeader("Generic Singleton Settings", 14, true)]
         [SerializeField] private bool dontDestroyOnLoad = true;
@@ -14,25 +14,25 @@ namespace PGS
         {
             get
             {
-                if (instance == null)
+                if (m_Instance == null)
                 {
-                    instance = FindAnyObjectByType<T>();
-                    if (instance == null)
+                    m_Instance = FindAnyObjectByType<T>();
+                    if (m_Instance == null)
                     {
                         Debug.Log($"No Singleton of Type {typeof(T).Name} found in scene(s). Creating a new one.");
-                        instance = CommonUtilities.AddComponentToNewGameObject<T>(null, $"{typeof(T).Name} (Singleton)");
+                        m_Instance = CommonUtilities.AddComponentToNewGameObject<T>(null, $"{typeof(T).Name} (Singleton)");
                     }
                 }
 
-                return instance;
+                return m_Instance;
             }
         }
 
         protected virtual void Awake()
         {
-            if (instance == null)
+            if (m_Instance == null)
             {
-                instance = this as T;
+                m_Instance = this as T;
 
                 if (dontDestroyOnLoad)
                 {

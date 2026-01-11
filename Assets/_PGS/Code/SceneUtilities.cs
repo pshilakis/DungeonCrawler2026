@@ -28,15 +28,18 @@ namespace PGS
 
 		private static IEnumerator<float> Load()
 		{
-			Debug.Log($"Total Scenes Queued to Load: {m_SceneQueue.Count}");
-			//m_Canvas.gameObject.SetActive(true); //Play the intro animation
+			int totalSceneCount = m_SceneQueue.Count;
+			Debug.Log($"Total Scenes Queued to Load: {totalSceneCount}");
+			yield return Timing.WaitUntilDone(m_SceneLoader.Show());
 
 			while (m_SceneQueue.Count > 0)
 			{
+				int sceneNum = m_SceneQueue.Count;
 				SceneData scene = DequeueScene();
 
 				if (!scene.SceneRef.IsLoaded)
 				{
+					Debug.Log($"Loading Scene : {scene.SceneRef.SceneName} ({sceneNum}/{totalSceneCount}) @ {DateTime.Now.TimeOfDay}");
 					OnSceneLoadStart?.Invoke(scene.SceneRef, DateTime.Now.TimeOfDay);
 					yield return Timing.WaitUntilDone(SceneManager.LoadSceneAsync(scene.SceneRef.SceneName, LoadSceneMode.Additive));
 					yield return Timing.WaitForOneFrame;
@@ -45,7 +48,7 @@ namespace PGS
 			}
 
 			OnAllScenesLoaded?.Invoke(DateTime.Now.TimeOfDay);
-			//m_Canvas.gameObject.SetActive(false); //Play the outro animation
+			yield return Timing.WaitUntilDone(m_SceneLoader.Hide());
 			m_SceneQueue.Clear();
 		}
 
@@ -57,9 +60,6 @@ namespace PGS
 
 		private static SceneData DequeueScene()
 		{
-			Debug.Log("dequeue");
-			Debug.Log(m_SceneQueue.Peek());
-
 			return m_SceneQueue.Dequeue();
 		}
 
