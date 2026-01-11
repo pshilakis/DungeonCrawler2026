@@ -7,6 +7,9 @@ using System;
 
 namespace PGS
 {
+	/// <summary>
+	/// Stores specific GameObjects necessary for scene loading during runtime
+	/// </summary>
     public class SceneLoader : MonoBehaviour
     {
         [SerializeField] private Canvas m_Canvas;
