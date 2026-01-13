@@ -12,11 +12,11 @@ namespace PGS
 
         public async void Initialize()
         {
-           await SetState(bootState);
+           await SetState(bootState, false);
            await SetState(lobbyState);
         }
 
-        public async Task SetState(GameState newState)
+        public async Task SetState(GameState newState, bool animateLoadingScreen = true)
         {
             if (CurrentState == newState) { return; }
 
@@ -26,8 +26,8 @@ namespace PGS
 
             if (CurrentState.RequireLoadScreenOnEnter)
             {
-                //Show load screen
-            }
+                await SceneUtilities.ShowLoadScreen(animateLoadingScreen); //Show load screen
+			}
 
             if (previousState != null) //unload the previous state if there was one
 			{
@@ -35,8 +35,8 @@ namespace PGS
             }
 
 			await CurrentState.Enter();
+            await SceneUtilities.HideLoadScreen(animateLoadingScreen); //Hide Load Screen
 
-            //Hide Load Screen
 		}
     }
 }

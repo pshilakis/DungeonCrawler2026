@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using MEC;
@@ -27,12 +28,24 @@ namespace PGS
 			Debug.Log("Scene Loader Registered!");
 		}
 
+		#region Show/Hide Loading Screen
+		public static async Task ShowLoadScreen(bool playIntroAnimation)
+		{
+			await m_SceneLoader.Show(playIntroAnimation);
+		}
+
+		public static async Task HideLoadScreen(bool playOutroAnimation)
+		{
+			await m_SceneLoader.Hide(playOutroAnimation);
+		}
+		#endregion
+
 		#region Load/Unload Scenes
 		private static IEnumerator<float> Load()
 		{
 			int totalSceneCount = m_LoadQueue.Count;
 			Debug.Log($"Total Scenes Queued to Load: {totalSceneCount}");
-			yield return Timing.WaitUntilDone(m_SceneLoader.Show());
+			//yield return Timing.WaitUntilDone(m_SceneLoader.Show());
 
 			while (m_LoadQueue.Count > 0)
 			{
@@ -53,7 +66,7 @@ namespace PGS
 			}
 
 			OnAllScenesLoaded?.Invoke(DateTime.Now.TimeOfDay);
-			yield return Timing.WaitUntilDone(m_SceneLoader.Hide());
+			//yield return Timing.WaitUntilDone(m_SceneLoader.Hide());
 			m_LoadQueue.Clear();
 		}
 

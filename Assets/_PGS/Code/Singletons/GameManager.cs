@@ -6,12 +6,10 @@ namespace PGS
 {
 	public class GameManager : Singleton<GameManager>
 	{
-		//[SerializeField] private SceneData lobbyScene;
-		//[SerializeField] private SceneData[] testSceneLoads;
-		[ColoredHeader("Game State Machine (GSM)", 14, true)]
+		[ColoredHeader("Game State Machine (GSM)", "#ffff55", 14, true)]
 		[SerializeField] private GameStateMachine m_StateMachine;
-
-		[ColoredHeader("Character Prefab References", 14, true)]
+		
+		[ColoredHeader("Character Prefab References", "#00ccff", 14, true)]
 		[SerializeField] private Character characterPrefab;
 		[SerializeField] private Character[] activeCharacters;
 
