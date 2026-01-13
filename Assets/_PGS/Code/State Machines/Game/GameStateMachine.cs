@@ -4,13 +4,12 @@ using UnityEngine;
 namespace PGS
 {
     [System.Serializable]
-    public class GameStateMachine : StateMachine<GameStateMachine>
+    public class GameStateMachine : StateMachine<GameStateMachine, GameState>
     {
         [SerializeField] private BootState bootState;
         [SerializeField] private LobbyState lobbyState;
         [SerializeField] private BoardState boardState;
 
-        [ReadOnly][SerializeField] private GameState m_CurrentState;
         public GameState CurrentGameState
         { 
             get { return m_CurrentState; }
@@ -29,6 +28,7 @@ namespace PGS
 
             GameState previousState = CurrentGameState;
             CurrentGameState = newState;
+            Debug.Log($"<color=#00ccff>Game State Change:</color> Enter > {CurrentGameState.GetType()}");
 
             if (CurrentGameState.RequireLoadScreenOnEnter)
             {

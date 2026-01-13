@@ -15,8 +15,6 @@ namespace PGS
 		[SerializeField] private Character characterPrefab;
 		[SerializeField] private Character[] activeCharacters;
 
-		
-
 		protected override void Awake()
 		{
 			base.Awake();
