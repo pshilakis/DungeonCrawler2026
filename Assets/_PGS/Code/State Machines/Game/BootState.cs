@@ -22,6 +22,7 @@ namespace PGS
 			CommonUtilities.AddComponentToNewGameObject<InputRelay>(GameManager.Instance.transform, nameof(InputRelay)); //Setup Input
 			OnStateInitialized?.Invoke();
 			return Task.CompletedTask;
+
 		}
 
 		public override Task Exit()

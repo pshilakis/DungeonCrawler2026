@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace PGS
 {
-    public abstract class StateMachine<T> : MonoBehaviour
+    public abstract class StateMachine<T>
     {
         
     }
