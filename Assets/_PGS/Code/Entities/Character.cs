@@ -5,7 +5,7 @@ namespace PGS
 {
     public class Character : MapEntity
     {
-        [SerializeField] private Room m_CurrentRoom;
-        [SerializeField] private Queue<Room> m_RoomQueue;
+        [SerializeField] private MapTile m_CurrentTile;
+        private Queue<MapTile> m_TileQueue; //The current path the character is going to take up to any branches
     }
 }

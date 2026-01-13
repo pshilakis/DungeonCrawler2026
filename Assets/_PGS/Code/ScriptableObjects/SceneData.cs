@@ -1,6 +1,7 @@
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using static PGS.SceneReference;
 
 namespace PGS
 {
@@ -40,9 +41,9 @@ namespace PGS
 
 		[ReadOnly] public Scene scene;
 		[ReadOnly] public SceneStatus status;
-		//public SceneStatus Status { get { return status; } }
+		public SceneStatus Status { get { return status; } }
 
-		public bool IsLoaded { get { return scene.isLoaded; } }
+		//public bool IsLoaded { get { return status == SceneStatus.LOADING ; } }
 
 
 		//#region Events
@@ -55,31 +56,31 @@ namespace PGS
 		//public void SetLoading()
 		//{
 		//	status = SceneStatus.LOADING;
-		//	OnSceneLoading?.Invoke(this);
+		//	//OnSceneLoading?.Invoke(this);
 		//}
 
 		//public virtual void SetLoaded(bool setActive = true)
 		//{
 		//	status = SceneStatus.LOADED;
-		//	scene = SceneManager.GetSceneByName(_sceneName);
-		//	if (setActive)
-		//	{
-		//		SceneManager.SetActiveScene(scene);
-		//	}
+		//	//scene = SceneManager.GetSceneByName(_sceneName);
+		//	//if (setActive)
+		//	//{
+		//	//	SceneManager.SetActiveScene(scene);
+		//	//}
 
-		//	OnSceneLoaded?.Invoke(this, scene);
+		//	//OnSceneLoaded?.Invoke(this, scene);
 		//}
 
 		//public void SetUnloading()
 		//{
 		//	status = SceneStatus.UNLOADING;
-		//	OnSceneUnloading?.Invoke(this);
+		//	//OnSceneUnloading?.Invoke(this);
 		//}
 
 		//public virtual void SetUnloaded()
 		//{
 		//	status = SceneStatus.UNLOADED;
-		//	OnSceneUnloaded?.Invoke(this);
+		//	//OnSceneUnloaded?.Invoke(this);
 		//}
 		//#endregion
 
@@ -165,6 +166,11 @@ namespace PGS
 			}
 
 			return new SceneReference(asset);
+		}
+
+		public void SetStatus(SceneStatus status)
+		{
+			SceneRef.status = status;
 		}
 
 		public bool ValidateSceneFiles()

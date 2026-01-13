@@ -8,6 +8,18 @@ namespace PGS
 	{
 		[SerializeField] protected Vector2Int size = Vector2Int.one;
 
+		public Vector3 Center
+		{
+			get
+			{
+				return new Vector3(
+					transform.position.x + (size.x / 2f),
+					transform.position.y,
+					transform.position.z + (size.y / 2f)
+					);
+			}
+		}
+
 		protected virtual void OnValidate()
 		{
 			ClampSize();
@@ -20,6 +32,12 @@ namespace PGS
 		{
 			size.x = Mathf.Max(size.x, 1);
 			size.y = Mathf.Max(size.y, 1);
+		}
+
+		protected virtual void OnDrawGizmos()
+		{
+			Gizmos.color = Color.black;
+			Gizmos.DrawSphere(Center, 0.1f);
 		}
 	}
 }

@@ -18,7 +18,8 @@ namespace PGS
 		/// <summary>
 		/// The queue of Scenes we need to load and want to keep track of the status of
 		/// </summary>
-		private static readonly Queue<SceneData> m_SceneQueue = new Queue<SceneData>();
+		private static readonly Queue<SceneData> m_LoadQueue = new Queue<SceneData>();
+		private static readonly Queue<SceneData> m_UnloadQueue = new Queue<SceneData>();
 
 		public static void RegisterSceneLoader(SceneLoader loader)
 		{
@@ -26,41 +27,52 @@ namespace PGS
 			Debug.Log("Scene Loader Registered!");
 		}
 
+		#region Load/Unload Scenes
 		private static IEnumerator<float> Load()
 		{
-			int totalSceneCount = m_SceneQueue.Count;
+			int totalSceneCount = m_LoadQueue.Count;
 			Debug.Log($"Total Scenes Queued to Load: {totalSceneCount}");
 			yield return Timing.WaitUntilDone(m_SceneLoader.Show());
 
-			while (m_SceneQueue.Count > 0)
+			while (m_LoadQueue.Count > 0)
 			{
-				int sceneNum = m_SceneQueue.Count;
-				SceneData scene = DequeueScene();
+				int sceneNum = m_LoadQueue.Count;
+				SceneData scene = m_LoadQueue.Dequeue();
 
-				if (!scene.SceneRef.IsLoaded)
+				if (scene.SceneRef.Status != SceneReference.SceneStatus.LOADED)
 				{
-					Debug.Log($"Loading Scene : {scene.SceneRef.SceneName} ({sceneNum}/{totalSceneCount}) @ {DateTime.Now.TimeOfDay}");
+					Debug.Log($"<color=#00ff00>Loading Scene</color> : {scene.SceneRef.SceneName} ({sceneNum}/{totalSceneCount}) @ {DateTime.Now.TimeOfDay}");
+
 					OnSceneLoadStart?.Invoke(scene.SceneRef, DateTime.Now.TimeOfDay);
+					scene.SetStatus(SceneReference.SceneStatus.LOADING);
 					yield return Timing.WaitUntilDone(SceneManager.LoadSceneAsync(scene.SceneRef.SceneName, LoadSceneMode.Additive));
 					yield return Timing.WaitForOneFrame;
 					OnSceneLoadEnd?.Invoke(scene.SceneRef, DateTime.Now.TimeOfDay);
+					scene.SetStatus(SceneReference.SceneStatus.LOADED);
 				}
 			}
 
 			OnAllScenesLoaded?.Invoke(DateTime.Now.TimeOfDay);
 			yield return Timing.WaitUntilDone(m_SceneLoader.Hide());
-			m_SceneQueue.Clear();
+			m_LoadQueue.Clear();
+		}
+
+		private static IEnumerator<float> Unload()
+		{
+			int totalSceneCount = m_UnloadQueue.Count;
+			while(m_UnloadQueue.Count > 0)
+			{
+				int sceneNum = m_UnloadQueue.Count;
+				SceneData scene = m_UnloadQueue.Dequeue();
+
+				yield return Timing.WaitUntilDone(SceneManager.UnloadSceneAsync(scene.SceneRef.SceneName));
+			}
 		}
 
 		public static void QueueSceneLoad(SceneData scene)
 		{
-			if (m_SceneQueue.Contains(scene)) { return; }
-			m_SceneQueue.Enqueue(scene);
-		}
-
-		private static SceneData DequeueScene()
-		{
-			return m_SceneQueue.Dequeue();
+			if (m_LoadQueue.Contains(scene)) { return; }
+			m_LoadQueue.Enqueue(scene);
 		}
 
 		public static void LoadScene(SceneData scene)
@@ -78,5 +90,16 @@ namespace PGS
 
 			m_LoadCoroutine = Timing.RunCoroutineSingleton(Load(), m_LoadCoroutine, SingletonBehavior.Wait);
 		}
+
+		public static void UnloadScene(SceneData scene)
+		{
+
+		}
+
+		public static void UnloadAllScenes()
+		{
+			
+		}
+		#endregion
 	}
 }

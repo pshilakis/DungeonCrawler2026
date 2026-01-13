@@ -5,7 +5,7 @@ namespace PGS
 {
 	[ExecuteInEditMode]
     [RequireComponent(typeof(BoxCollider))]
-    public class RoomCollider : MonoBehaviour
+    public class TileCollider : MonoBehaviour
     {
 		[ReadOnly][SerializeField] private BoxCollider m_Collider;
 
