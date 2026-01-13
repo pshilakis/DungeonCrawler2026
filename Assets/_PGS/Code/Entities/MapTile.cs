@@ -13,6 +13,8 @@ namespace PGS
 
 		[SerializeField] private MapTile[] connections;
 
+		public static Action<MapTile, Character> OnTileUpdated;
+
 		#region Unity Methods
 		private void Reset()
 		{
@@ -57,7 +59,6 @@ namespace PGS
 				Gizmos.color = Color.yellowGreen;
 				Gizmos.DrawLine(Center, tile.Center);
 			}
-
 		}
 		#endregion
 
@@ -71,11 +72,15 @@ namespace PGS
 		private void OnCharacterEnterTile(Character character)
 		{
 			Debug.Log($"{character} entered room {gameObject.name} @ {DateTime.Now.TimeOfDay}");
+			OnTileUpdated?.Invoke(this, character);
+			//Increment the character formation grid to correctly space out characters based on how many are on this tile
 		}
 
 		private void OnCharacterExitTile(Character character)
 		{
 			Debug.Log($"{character} exited room {gameObject.name} @ {DateTime.Now.TimeOfDay}");
+			//OnTileUpdated?.Invoke(this, null); //don't know if I need this to track enter AND exit or not
+			//Decrement the character formation grid to correctly space out characters based on how many are on this tile
 		}
 
 

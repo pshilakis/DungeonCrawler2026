@@ -49,3 +49,5 @@ MonoBehaviour:
   eventSystemPrefab: {fileID: 4720919701848734516, guid: d28d76b9826bcb9478299b3315a82723, type: 3}
   testSceneLoads:
   - {fileID: 11400000, guid: 45883fe92df96d348be63bebc622aa90, type: 2}
+  characterPrefab: {fileID: 255029454372308822, guid: 138d5b8b1f8c824418a287ed70c05224, type: 3}
+  activeCharacters: []

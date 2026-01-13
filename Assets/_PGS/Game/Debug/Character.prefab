@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d536d2d309ee9143a51de5dc2744a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PGS.Character
+  size: {x: 1, y: 1}
+  m_CurrentTile: {fileID: 0}
 --- !u!136 &7661636898024463007
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -92,7 +94,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0

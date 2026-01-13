@@ -4,6 +4,7 @@ using UnityEngine;
 namespace PGS
 {
 	[DisallowMultipleComponent]
+	[SelectionBase]
 	public class MapEntity : MonoBehaviour
 	{
 		[SerializeField] protected Vector2Int size = Vector2Int.one;
@@ -36,8 +37,8 @@ namespace PGS
 
 		protected virtual void OnDrawGizmos()
 		{
-			Gizmos.color = Color.black;
-			Gizmos.DrawSphere(Center, 0.1f);
+			//Gizmos.color = Color.black;
+			//Gizmos.DrawSphere(Center, 0.1f);
 		}
 	}
 }

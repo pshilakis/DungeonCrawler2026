@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36dde45c6c59f47498d2b9f47b496de5, type: 3}
+  m_Name: Christmas2026_Data
+  m_EditorClassIdentifier: Assembly-CSharp::PGS.MapData
+  mapPrefab: {fileID: 2215490472212648901, guid: 6db05debde4ffd14fa4fa0149370c22f, type: 3}
