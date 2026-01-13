@@ -6,13 +6,9 @@ namespace PGS
 {
 	public class GameManager : Singleton<GameManager>
 	{
-		[ColoredHeader("System Prefab References", 14, true)]
-		[SerializeField] private SceneLoader sceneLoaderPrefab;
-		[SerializeField] private EventSystem eventSystemPrefab;
-
-		[ColoredHeader("Scene References", 14, true)]
-		[SerializeField] private SceneData lobbyScene;
-		[SerializeField] private SceneData[] testSceneLoads;
+		//[ColoredHeader("Scene References", 14, true)]
+		//[SerializeField] private SceneData lobbyScene;
+		//[SerializeField] private SceneData[] testSceneLoads;
 
 		[ColoredHeader("Character Prefab References", 14, true)]
 		[SerializeField] private Character characterPrefab;
@@ -28,24 +24,13 @@ namespace PGS
 
 			if (CommonUtilities.TryGetComponentInChildren<GameStateMachine>(this, out m_GSM))
 			{
-				
+				GSM.Initialize();
 			}
 			else
 			{
 				Debug.LogError("NO GAME STATE MACHINE FOUND");
+				//Close the game
 			}
-
-				InstantiateSystemPrefab(sceneLoaderPrefab); //Setup SceneLoader
-			InstantiateSystemPrefab(eventSystemPrefab); //Setup EventSystem for UI Input
-			CommonUtilities.AddComponentToNewGameObject<InputRelay>(this.transform, nameof(InputRelay)); //Setup Input
-			SceneUtilities.LoadScenes(testSceneLoads);
-		}
-
-		private void InstantiateSystemPrefab(Component component)
-		{
-			GameObject obj = GameObject.Instantiate(component.gameObject);
-			obj.name = $"> {component.GetType().Name}";
-			CommonUtilities.SetNewParent(obj, this.transform);
 		}
 
 		private void InstantiatePlayers()

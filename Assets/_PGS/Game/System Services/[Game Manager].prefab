@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 518455199439636299}
   - component: {fileID: 1141566109363183624}
+  - component: {fileID: 4037815066913327178}
   m_Layer: 0
   m_Name: '[Game Manager]'
   m_TagString: Untagged
@@ -45,9 +46,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PGS.GameManager
   dontDestroyOnLoad: 1
-  sceneLoaderPrefab: {fileID: 5804260589162466263, guid: 632da9f6d774dac4c9919182936c1cfd, type: 3}
-  eventSystemPrefab: {fileID: 4720919701848734516, guid: d28d76b9826bcb9478299b3315a82723, type: 3}
-  testSceneLoads:
-  - {fileID: 11400000, guid: 45883fe92df96d348be63bebc622aa90, type: 2}
   characterPrefab: {fileID: 255029454372308822, guid: 138d5b8b1f8c824418a287ed70c05224, type: 3}
   activeCharacters: []
+--- !u!114 &4037815066913327178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5986077373240033860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d28fa324bc093c4b9a44e56d3002e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PGS.GameStateMachine
+  bootState:
+    requireLoadScreenOnEnter: 0
+    requiredScenes: []
+    sceneLoaderPrefab: {fileID: 5804260589162466263, guid: 632da9f6d774dac4c9919182936c1cfd, type: 3}
+    eventSystemPrefab: {fileID: 4720919701848734516, guid: d28d76b9826bcb9478299b3315a82723, type: 3}
+  lobbyState:
+    requireLoadScreenOnEnter: 0
+    requiredScenes:
+    - {fileID: 11400000, guid: 45883fe92df96d348be63bebc622aa90, type: 2}
