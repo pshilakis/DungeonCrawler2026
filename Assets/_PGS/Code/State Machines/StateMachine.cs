@@ -2,10 +2,17 @@ using UnityEngine;
 
 namespace PGS
 {
-    public abstract class StateMachine<T, S> 
+    public abstract class StateMachine<T, StateType> 
         where T : class
-        where S : State<S>
+        where StateType : State<StateType>
     {
-		[ReadOnly][SerializeReference] protected S m_CurrentState;
+		private StateType m_CurrentState;
+
+        public StateType CurrentState
+        {
+            get {  return m_CurrentState; }
+            protected set { m_CurrentState = value; }
+        }
+
     }
 }

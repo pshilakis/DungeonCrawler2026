@@ -10,12 +10,6 @@ namespace PGS
         [SerializeField] private LobbyState lobbyState;
         [SerializeField] private BoardState boardState;
 
-        public GameState CurrentGameState
-        { 
-            get { return m_CurrentState; }
-            private set { m_CurrentState = value; }
-        }
-
         public async void Initialize()
         {
            await SetState(bootState);
@@ -24,13 +18,13 @@ namespace PGS
 
         public async Task SetState(GameState newState)
         {
-            if (CurrentGameState == newState) { return; }
+            if (CurrentState == newState) { return; }
 
-            GameState previousState = CurrentGameState;
-            CurrentGameState = newState;
-            Debug.Log($"<color=#00ccff>Game State Change:</color> Enter > {CurrentGameState.GetType()}");
+            GameState previousState = CurrentState;
+            CurrentState = newState;
+            Debug.Log($"<color=#00ccff>Game State Change:</color> Enter > {CurrentState.GetType()}");
 
-            if (CurrentGameState.RequireLoadScreenOnEnter)
+            if (CurrentState.RequireLoadScreenOnEnter)
             {
                 //Show load screen
             }
@@ -40,7 +34,7 @@ namespace PGS
 				await previousState.Exit();
             }
 
-			await CurrentGameState.Enter();
+			await CurrentState.Enter();
 
             //Hide Load Screen
 		}
