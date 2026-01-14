@@ -19,8 +19,7 @@ namespace PGS
             Input.OnPointerUp += PointerRelease;
 
 			//Move these eventually to when we actually need to start the controls in certain game states
-			Input.Controls.Player.Enable(); 
-            Input.Controls.UI.Enable();
+			//Input.Controls.Player.Enable();
         }
 
 		private void PointerClick(TimeSpan time)

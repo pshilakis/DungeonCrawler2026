@@ -12,7 +12,7 @@ namespace PGS
 		{
 			OnStateEnter?.Invoke();
 			SceneUtilities.LoadScenes(requiredScenes);
-			//enable lobby UI input actionmap
+			GameManager.Instance.InputRelay.Input.Controls.UI.Enable(); //Enable lobby UI input actionmap
 
 			OnStateInitialized?.Invoke();
 			return true;
@@ -20,6 +20,7 @@ namespace PGS
 
 		public override bool Exit()
 		{
+			GameManager.Instance.InputRelay.Input.Controls.UI.Disable(); //Enable lobby UI input actionmap
 			OnStateExitState?.Invoke();
 			OnStateExitComplete?.Invoke();
 			return true;

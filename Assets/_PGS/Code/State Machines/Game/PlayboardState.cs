@@ -4,7 +4,7 @@ using UnityEngine;
 namespace PGS
 {
 	[System.Serializable]
-	public class BoardState : GameState
+	public class PlayboardState : GameState
 	{
 		public override bool RequireLoadScreenOnEnter => true;
 

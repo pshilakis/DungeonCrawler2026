@@ -1,7 +1,7 @@
 using PGS.Utilities;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Unity.Cinemachine;
 
 namespace PGS
 {
@@ -10,6 +10,7 @@ namespace PGS
     {
 		[Header("System Prefab References")]
 		[SerializeField] private SceneLoader sceneLoaderPrefab;
+		[SerializeField] private CinemachineBrain cameraPrefab;
 		[SerializeField] private EventSystem eventSystemPrefab;
 
 		public override bool RequireLoadScreenOnEnter => false;
@@ -18,14 +19,16 @@ namespace PGS
 		{
 			OnStateEnter?.Invoke();
 			InstantiateSystemPrefab(sceneLoaderPrefab); //Setup SceneLoader
+			InstantiateSystemPrefab(cameraPrefab);
 			InstantiateSystemPrefab(eventSystemPrefab); //Setup EventSystem for UI Input
-			CommonUtilities.AddComponentToNewGameObject<InputRelay>(GameManager.Instance.transform, nameof(InputRelay)); //Setup Input
+			GameManager.Instance.SetInputRelay(CommonUtilities.AddComponentToNewGameObject<InputRelay>(GameManager.Instance.transform, nameof(InputRelay))); //Setup Input
 			OnStateInitialized?.Invoke();
 			return true;
 		}
 
 		public override bool Exit()
 		{
+			SceneUtilities.UnloadAllScenes();
 			OnStateExitState?.Invoke();
 			OnStateExitComplete?.Invoke();
 			return true;

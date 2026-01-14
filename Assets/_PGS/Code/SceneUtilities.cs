@@ -57,10 +57,12 @@ namespace PGS
 
 					OnSceneLoadStart?.Invoke(scene.SceneRef, DateTime.Now.TimeOfDay);
 					scene.SetStatus(SceneReference.SceneStatus.LOADING);
-					yield return Timing.WaitUntilDone(SceneManager.LoadSceneAsync(scene.SceneRef.SceneName, LoadSceneMode.Additive));
-					yield return Timing.WaitForOneFrame;
+					AsyncOperation op = SceneManager.LoadSceneAsync(scene.SceneRef.SceneName, LoadSceneMode.Additive);
+					yield return Timing.WaitUntilDone(op);
 					OnSceneLoadEnd?.Invoke(scene.SceneRef, DateTime.Now.TimeOfDay);
 					scene.SetStatus(SceneReference.SceneStatus.LOADED);
+
+					yield return Timing.WaitForOneFrame;
 				}
 			}
 
@@ -109,7 +111,7 @@ namespace PGS
 
 		public static void UnloadAllScenes()
 		{
-			
+			Debug.Log("Unloading Scenes");
 		}
 		#endregion
 	}

@@ -11,7 +11,7 @@ namespace PGS
     {
         [SerializeField] private BootState bootState;
         [SerializeField] private LobbyState lobbyState;
-        [SerializeField] private BoardState boardState;
+        [SerializeField] private PlayboardState playboardState;
 
         private bool m_InitComplete = false;
         private CoroutineHandle m_SetStateCoroutine;
@@ -37,10 +37,10 @@ namespace PGS
 
 			if (previousState != null) //unload the previous state if there was one
 			{
-				previousState.Exit();
-            }
+				yield return Timing.WaitUntilTrue(() => previousState.Exit()); //Can I use a Func<bool> somehow to Timing.WaitUntilTrue() for this?
+			}
 
-			CurrentState.Enter();
+			yield return Timing.WaitUntilTrue(() => CurrentState.Enter()); //Can I use a Func<bool> somehow to Timing.WaitUntilTrue() for this?
 
             if (m_InitComplete)
             {

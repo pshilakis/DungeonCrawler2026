@@ -1,6 +1,4 @@
-using PGS.Utilities;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace PGS
 {
@@ -8,6 +6,8 @@ namespace PGS
 	{
 		[ColoredHeader("Game State Machine (GSM)", "#ffff55", 14, true)]
 		[SerializeField] private GameStateMachine m_StateMachine;
+
+		public InputRelay InputRelay { get; private set; }
 		
 		[ColoredHeader("Character Prefab References", "#00ccff", 14, true)]
 		[SerializeField] private Character characterPrefab;
@@ -17,6 +17,11 @@ namespace PGS
 		{
 			base.Awake();
 			m_StateMachine.Initialize();
+		}
+
+		public void SetInputRelay(InputRelay relay)
+		{
+			InputRelay = relay;
 		}
 
 		private void InstantiatePlayers()

@@ -26,9 +26,9 @@ namespace PGS
         }
 
 		#region Player Actions
-		public void OnCursor(InputAction.CallbackContext context) { } //Doesn't do anything; just reports the cursor position
+		void PlayerControls.IPlayerActions.OnCursor(InputAction.CallbackContext context) { } //Doesn't do anything; just reports the cursor position
 
-		public void OnClick(InputAction.CallbackContext context)
+		void PlayerControls.IPlayerActions.OnClick(InputAction.CallbackContext context)
 		{
             switch (context.phase)
             {
@@ -38,45 +38,49 @@ namespace PGS
                 case InputActionPhase.Canceled:
                     OnPointerUp?.Invoke(DateTime.Now.TimeOfDay);
                     break;
-
             }
 		}
 		#endregion
 
 		#region UI Actions
-		public void OnNavigate(InputAction.CallbackContext context)
+		void PlayerControls.IUIActions.OnNavigate(InputAction.CallbackContext context)
 		{
 		}
 
-		public void OnSubmit(InputAction.CallbackContext context)
+		void PlayerControls.IUIActions.OnSubmit(InputAction.CallbackContext context)
 		{
 		}
 
-		public void OnCancel(InputAction.CallbackContext context)
+		void PlayerControls.IUIActions.OnCancel(InputAction.CallbackContext context)
 		{
 		}
 
-		public void OnPoint(InputAction.CallbackContext context)
+		void PlayerControls.IUIActions.OnPoint(InputAction.CallbackContext context)
 		{
 		}
 
-		public void OnRightClick(InputAction.CallbackContext context)
+		void PlayerControls.IUIActions.OnClick(InputAction.CallbackContext context)
 		{
 		}
 
-		public void OnMiddleClick(InputAction.CallbackContext context)
+		void PlayerControls.IUIActions.OnRightClick(InputAction.CallbackContext context)
+		{
+			
+		}
+
+		void PlayerControls.IUIActions.OnMiddleClick(InputAction.CallbackContext context)
 		{
 		}
 
-		public void OnScrollWheel(InputAction.CallbackContext context)
+		void PlayerControls.IUIActions.OnScrollWheel(InputAction.CallbackContext context)
 		{
 		}
 
-		public void OnTrackedDevicePosition(InputAction.CallbackContext context)
+		void PlayerControls.IUIActions.OnTrackedDevicePosition(InputAction.CallbackContext context)
 		{
 		}
 
-		public void OnTrackedDeviceOrientation(InputAction.CallbackContext context)
+		void PlayerControls.IUIActions.OnTrackedDeviceOrientation(InputAction.CallbackContext context)
 		{
 		}
 		#endregion

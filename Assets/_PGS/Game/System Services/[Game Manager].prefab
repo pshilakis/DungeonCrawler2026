@@ -49,11 +49,13 @@ MonoBehaviour:
     bootState:
       requiredScenes: []
       sceneLoaderPrefab: {fileID: 5804260589162466263, guid: 632da9f6d774dac4c9919182936c1cfd, type: 3}
+      cameraPrefab: {fileID: 4866045874374193160, guid: ee2b9406aa0cc2b4a81d19c73ab479e4, type: 3}
       eventSystemPrefab: {fileID: 4720919701848734516, guid: d28d76b9826bcb9478299b3315a82723, type: 3}
     lobbyState:
       requiredScenes:
       - {fileID: 11400000, guid: 45883fe92df96d348be63bebc622aa90, type: 2}
-    boardState:
-      requiredScenes: []
+    playboardState:
+      requiredScenes:
+      - {fileID: 11400000, guid: 6f223848836fef44fa8e4e9910830ea5, type: 2}
   characterPrefab: {fileID: 255029454372308822, guid: 138d5b8b1f8c824418a287ed70c05224, type: 3}
   activeCharacters: []
