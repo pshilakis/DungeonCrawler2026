@@ -8,6 +8,7 @@ namespace PGS
     public class InputReceiver : ScriptableObject, PlayerControls.IPlayerActions, PlayerControls.IUIActions
     {
         public PlayerControls Controls { get; private set; }
+
         #region Events
         public Action<TimeSpan> OnPointerDown;
         public Action<TimeSpan> OnPointerUp;
@@ -65,7 +66,6 @@ namespace PGS
 
 		void PlayerControls.IUIActions.OnRightClick(InputAction.CallbackContext context)
 		{
-			
 		}
 
 		void PlayerControls.IUIActions.OnMiddleClick(InputAction.CallbackContext context)
