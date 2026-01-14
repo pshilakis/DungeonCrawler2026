@@ -6,7 +6,7 @@ namespace PGS
 {
     public abstract class State<T>
     {
-        public abstract Task Enter();
-        public abstract Task Exit();
+        public abstract bool Enter();
+        public abstract bool Exit();
     }
 }

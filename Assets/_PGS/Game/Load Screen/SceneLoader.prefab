@@ -84,6 +84,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6084129580907628527}
+  - component: {fileID: 1235561736107468333}
+  - component: {fileID: 6157830007831788247}
   - component: {fileID: 5804260589162466263}
   m_Layer: 0
   m_Name: SceneLoader
@@ -108,6 +110,43 @@ Transform:
   - {fileID: 1098521365212928965}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1235561736107468333
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4615812079577213207}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6157830007831788247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4615812079577213207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Kybernetik.Animancer::Animancer.AnimancerComponent
+  _Animator: {fileID: 1235561736107468333}
+  _Transitions: {fileID: 0}
+  _ActionOnDisable: 0
 --- !u!114 &5804260589162466263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +159,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14139d48fd1ba844d9d714c324c33641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PGS.SceneLoader
+  m_OnOffRoot: {fileID: 7031619860861243883}
+  m_LoadingImage: {fileID: 6229515358054066761}
+  m_LoadingText: {fileID: 1972452553088536487}
+  intro:
+    _FadeDuration: 0
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 0babc45d87803d94e91ecbda058d0a97, type: 2}
+    _NormalizedStartTime: NaN
+  outro:
+    _FadeDuration: 0
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 56d954e4ca633e446a24ee5c53a015eb, type: 2}
+    _NormalizedStartTime: NaN
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &5908324101503989984
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,6 +330,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1098521365212928965}
   - component: {fileID: 5496629553334274846}
+  - component: {fileID: 2261992720526334295}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -318,3 +382,15 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 1000
   m_TargetDisplay: 0
+--- !u!225 &2261992720526334295
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7031619860861243883}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

@@ -1,4 +1,7 @@
+using MEC;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 using UnityEngine;
 
 namespace PGS
@@ -10,33 +13,43 @@ namespace PGS
         [SerializeField] private LobbyState lobbyState;
         [SerializeField] private BoardState boardState;
 
+        private bool m_InitComplete = false;
+        private CoroutineHandle m_SetStateCoroutine;
+
         public async void Initialize()
         {
-           await SetState(bootState, false);
-           await SetState(lobbyState);
-        }
+			m_SetStateCoroutine = Timing.RunCoroutineSingleton(SetState(bootState, false, false), m_SetStateCoroutine, SingletonBehavior.Wait);
+			m_SetStateCoroutine = Timing.RunCoroutineSingleton(SetState(lobbyState, false, true), m_SetStateCoroutine, SingletonBehavior.Wait);
+		}
 
-        public async Task SetState(GameState newState, bool animateLoadingScreen = true)
+        public IEnumerator<float> SetState(GameState newState, bool animateIntro, bool animateOutro)
         {
-            if (CurrentState == newState) { return; }
+            if (CurrentState == newState) { yield break; }
 
             GameState previousState = CurrentState;
             CurrentState = newState;
-            Debug.Log($"<color=#00ccff>Game State Change:</color> Enter > {CurrentState.GetType()}");
+            Debug.Log($"<color=#00ccff>Game State Change:</color> {previousState?.GetType()} > {CurrentState.GetType()}");
 
-            if (CurrentState.RequireLoadScreenOnEnter)
+            if (CurrentState.RequireLoadScreenOnEnter && m_InitComplete)
             {
-                await SceneUtilities.ShowLoadScreen(animateLoadingScreen); //Show load screen
+                yield return Timing.WaitUntilDone(SceneUtilities.ShowLoadScreen(animateIntro));
 			}
 
-            if (previousState != null) //unload the previous state if there was one
+			if (previousState != null) //unload the previous state if there was one
 			{
-				await previousState.Exit();
+				previousState.Exit();
             }
 
-			await CurrentState.Enter();
-            await SceneUtilities.HideLoadScreen(animateLoadingScreen); //Hide Load Screen
+			CurrentState.Enter();
 
+            if (m_InitComplete)
+            {
+				yield return Timing.WaitUntilDone(SceneUtilities.HideLoadScreen(animateOutro)); //Hide Load Screen
+			}
+            else
+            {
+				m_InitComplete = true;
+			}
 		}
-    }
+	}
 }

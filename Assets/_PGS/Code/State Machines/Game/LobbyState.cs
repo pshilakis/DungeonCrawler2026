@@ -8,21 +8,21 @@ namespace PGS
 	{
 		public override bool RequireLoadScreenOnEnter => true;
 
-		public override Task Enter()
+		public override bool Enter()
 		{
 			OnStateEnter?.Invoke();
 			SceneUtilities.LoadScenes(requiredScenes);
 			//enable lobby UI input actionmap
 
 			OnStateInitialized?.Invoke();
-			return Task.CompletedTask;
+			return true;
 		}
 
-		public override Task Exit()
+		public override bool Exit()
 		{
 			OnStateExitState?.Invoke();
 			OnStateExitComplete?.Invoke();
-			return Task.CompletedTask;
+			return true;
 		}
 	}
 }

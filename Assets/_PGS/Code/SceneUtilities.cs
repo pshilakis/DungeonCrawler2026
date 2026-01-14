@@ -29,14 +29,14 @@ namespace PGS
 		}
 
 		#region Show/Hide Loading Screen
-		public static async Task ShowLoadScreen(bool playIntroAnimation)
+		public static CoroutineHandle ShowLoadScreen(bool playIntroAnimation)
 		{
-			await m_SceneLoader.Show(playIntroAnimation);
+			return Timing.RunCoroutine(m_SceneLoader.Show(playIntroAnimation));
 		}
 
-		public static async Task HideLoadScreen(bool playOutroAnimation)
+		public static CoroutineHandle HideLoadScreen(bool playOutroAnimation)
 		{
-			await m_SceneLoader.Hide(playOutroAnimation);
+			return Timing.RunCoroutine(m_SceneLoader.Hide(playOutroAnimation));
 		}
 		#endregion
 
@@ -45,7 +45,6 @@ namespace PGS
 		{
 			int totalSceneCount = m_LoadQueue.Count;
 			Debug.Log($"Total Scenes Queued to Load: {totalSceneCount}");
-			//yield return Timing.WaitUntilDone(m_SceneLoader.Show());
 
 			while (m_LoadQueue.Count > 0)
 			{
@@ -54,7 +53,7 @@ namespace PGS
 
 				if (scene.SceneRef.Status != SceneReference.SceneStatus.LOADED)
 				{
-					Debug.Log($"<color=#00ff00>Loading Scene</color> : {scene.SceneRef.SceneName} ({sceneNum}/{totalSceneCount}) @ {DateTime.Now.TimeOfDay}");
+					Debug.Log($"<color=#00ff00>Loading Scene ({sceneNum}/{totalSceneCount})</color>: {scene.SceneRef.SceneName} @ {DateTime.Now.TimeOfDay}");
 
 					OnSceneLoadStart?.Invoke(scene.SceneRef, DateTime.Now.TimeOfDay);
 					scene.SetStatus(SceneReference.SceneStatus.LOADING);
@@ -66,7 +65,6 @@ namespace PGS
 			}
 
 			OnAllScenesLoaded?.Invoke(DateTime.Now.TimeOfDay);
-			//yield return Timing.WaitUntilDone(m_SceneLoader.Hide());
 			m_LoadQueue.Clear();
 		}
 

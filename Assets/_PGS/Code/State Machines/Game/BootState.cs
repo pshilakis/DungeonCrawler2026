@@ -12,24 +12,23 @@ namespace PGS
 		[SerializeField] private SceneLoader sceneLoaderPrefab;
 		[SerializeField] private EventSystem eventSystemPrefab;
 
-		public override bool RequireLoadScreenOnEnter => true;
+		public override bool RequireLoadScreenOnEnter => false;
 
-		public override Task Enter()
+		public override bool Enter()
 		{
 			OnStateEnter?.Invoke();
 			InstantiateSystemPrefab(sceneLoaderPrefab); //Setup SceneLoader
 			InstantiateSystemPrefab(eventSystemPrefab); //Setup EventSystem for UI Input
 			CommonUtilities.AddComponentToNewGameObject<InputRelay>(GameManager.Instance.transform, nameof(InputRelay)); //Setup Input
 			OnStateInitialized?.Invoke();
-			return Task.CompletedTask;
-
+			return true;
 		}
 
-		public override Task Exit()
+		public override bool Exit()
 		{
 			OnStateExitState?.Invoke();
 			OnStateExitComplete?.Invoke();
-			return Task.CompletedTask;
+			return true;
 		}
 
 
