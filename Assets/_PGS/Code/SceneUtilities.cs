@@ -28,6 +28,8 @@ namespace PGS
 			Debug.Log("Scene Loader Registered!");
 		}
 
+		public static bool LoadingScreenEnabled { get { return m_SceneLoader.Enabled; } }
+
 		#region Show/Hide Loading Screen
 		public static CoroutineHandle ShowLoadScreen(bool playIntroAnimation)
 		{
@@ -41,7 +43,7 @@ namespace PGS
 		#endregion
 
 		#region Load/Unload Scenes
-		private static IEnumerator<float> Load()
+		private static IEnumerator<float> LoadQueue()
 		{
 			int totalSceneCount = m_LoadQueue.Count;
 			Debug.Log($"Total Scenes Queued to Load: {totalSceneCount}");
@@ -56,12 +58,11 @@ namespace PGS
 					Debug.Log($"<color=#00ff00>Loading Scene ({sceneNum}/{totalSceneCount})</color>: {scene.SceneRef.SceneName} @ {DateTime.Now.TimeOfDay}");
 
 					OnSceneLoadStart?.Invoke(scene.SceneRef, DateTime.Now.TimeOfDay);
-					scene.SetStatus(SceneReference.SceneStatus.LOADING);
-					AsyncOperation op = SceneManager.LoadSceneAsync(scene.SceneRef.SceneName, LoadSceneMode.Additive);
+					//scene.SetStatus(SceneReference.SceneStatus.LOADING);
+					AsyncOperation op = SceneManager.LoadSceneAsync(scene.SceneRef.SceneName, sceneNum == 1 ? LoadSceneMode.Single : LoadSceneMode.Additive);
 					yield return Timing.WaitUntilDone(op);
 					OnSceneLoadEnd?.Invoke(scene.SceneRef, DateTime.Now.TimeOfDay);
-					scene.SetStatus(SceneReference.SceneStatus.LOADED);
-
+					//scene.SetStatus(SceneReference.SceneStatus.LOADED);
 					yield return Timing.WaitForOneFrame;
 				}
 			}
@@ -91,7 +92,7 @@ namespace PGS
 		public static void LoadScene(SceneData scene)
 		{
 			QueueSceneLoad(scene);
-			m_LoadCoroutine = Timing.RunCoroutineSingleton(Load(), m_LoadCoroutine, SingletonBehavior.Wait);
+			m_LoadCoroutine = Timing.RunCoroutineSingleton(LoadQueue(), m_LoadCoroutine, SingletonBehavior.Wait);
 		}
 
 		public static void LoadScenes(SceneData[] scenes)
@@ -101,7 +102,7 @@ namespace PGS
 				QueueSceneLoad(scene);
 			}
 
-			m_LoadCoroutine = Timing.RunCoroutineSingleton(Load(), m_LoadCoroutine, SingletonBehavior.Wait);
+			m_LoadCoroutine = Timing.RunCoroutineSingleton(LoadQueue(), m_LoadCoroutine, SingletonBehavior.Wait);
 		}
 
 		public static void UnloadScene(SceneData scene)

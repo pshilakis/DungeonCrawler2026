@@ -1,6 +1,7 @@
-using UnityEditor;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 using static PGS.SceneReference;
 
 namespace PGS
@@ -43,7 +44,7 @@ namespace PGS
 		[ReadOnly] public SceneStatus status;
 		public SceneStatus Status { get { return status; } }
 
-		//public bool IsLoaded { get { return status == SceneStatus.LOADING ; } }
+		//public bool IsLoaded { get { return scene.isLoaded ; } }
 
 
 		//#region Events

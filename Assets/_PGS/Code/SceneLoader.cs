@@ -26,13 +26,15 @@ namespace PGS
 
 		private AnimancerComponent m_Animator;
 
-		private bool m_IsEnabled;
+		/// <summary>
+		/// Is the loading screen gameobject active in the scene (aka is it possible to play animations and see them)?
+		/// </summary>
+		public bool Enabled { get { return gameObject.activeInHierarchy && m_OnOffRoot.activeSelf; } }
 
 		private void Awake()
 		{
 			SceneUtilities.RegisterSceneLoader(this);
 			m_Animator = GetComponent<AnimancerComponent>();
-			m_IsEnabled = true; //When we first initialize, the loading screen is set to enabled
 		}
 
 		/// <summary>
@@ -41,7 +43,7 @@ namespace PGS
 		/// <returns></returns>
 		public IEnumerator<float> Show(bool animated)
 		{
-			if (m_IsEnabled) { yield break; } //if the loading screen isn't enabled, then there's nothing to hide
+			if (Enabled) { yield break; } //if the loading screen isn't enabled, then there's nothing to hide
 
 			m_OnOffRoot.SetActive(true);
 			AnimancerState state = m_Animator.Play(intro.Clip);
@@ -60,7 +62,6 @@ namespace PGS
 				yield return Timing.WaitForOneFrame;
 			}
 
-			m_IsEnabled = true;
 
 			Debug.Log($"Loading Screen Show @ {DateTime.Now.TimeOfDay}");
 		}
@@ -71,7 +72,7 @@ namespace PGS
 		/// <returns></returns>
 		public IEnumerator<float> Hide(bool animated)
 		{
-			if (!m_IsEnabled) { yield break; } //if the loading screen isn't enabled, then there's nothing to hide
+			if (!Enabled) { yield break; } //if the loading screen isn't enabled, then there's nothing to hide
 
 			AnimancerState state = m_Animator.Play(outro.Clip); //Play the outro animation
 			state.Weight = 1f;
@@ -79,20 +80,19 @@ namespace PGS
 
 			if (animated)
 			{
-				//Debug.Log("animated");
+				Debug.Log("animated");
 				//Task.Delay((int)state.Length * 1000); // multiply (int) seconds by 1000 to get milliseconds
 				//await Task.Delay((int) * 1000);
 				yield return Timing.WaitForSeconds(state.Length);
 			}
 			else
 			{
-				//Debug.Log("instant");
-				state.FinishImmediately(); //Jump to the last frame of the outro animation
+				Debug.Log("instant");
+				//state.FinishImmediately(); //Jump to the last frame of the outro animation
 				yield return Timing.WaitForOneFrame;
 			}
 
 			m_OnOffRoot.SetActive(false);
-			m_IsEnabled = false;
 			Debug.Log($"Loading Screen Hide @ {DateTime.Now.TimeOfDay}");
 		}
 	}

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -10,19 +11,20 @@ namespace PGS
 
 		public override bool Enter()
 		{
-			OnStateEnter?.Invoke();
+			Debug.Log($"{this.GetType()} ENTER START @ {DateTime.Now}");
+			//OnStateEnter?.Invoke();
 			SceneUtilities.LoadScenes(requiredScenes);
 			GameManager.Instance.InputRelay.Input.Controls.UI.Enable(); //Enable lobby UI input actionmap
-
-			OnStateInitialized?.Invoke();
+			Debug.Log($"{this.GetType()} ENTER COMPLETE @ {DateTime.Now}");
+			//OnStateInitialized?.Invoke();
 			return true;
 		}
 
 		public override bool Exit()
 		{
 			GameManager.Instance.InputRelay.Input.Controls.UI.Disable(); //Enable lobby UI input actionmap
-			OnStateExitState?.Invoke();
-			OnStateExitComplete?.Invoke();
+			//OnStateExitState?.Invoke();
+			//OnStateExitComplete?.Invoke();
 			return true;
 		}
 	}

@@ -17,20 +17,19 @@ namespace PGS
 
 		public override bool Enter()
 		{
-			OnStateEnter?.Invoke();
+			OnEnter?.Invoke();
 			InstantiateSystemPrefab(sceneLoaderPrefab); //Setup SceneLoader
 			InstantiateSystemPrefab(cameraPrefab);
 			InstantiateSystemPrefab(eventSystemPrefab); //Setup EventSystem for UI Input
 			GameManager.Instance.SetInputRelay(CommonUtilities.AddComponentToNewGameObject<InputRelay>(GameManager.Instance.transform, nameof(InputRelay))); //Setup Input
-			OnStateInitialized?.Invoke();
+			OnEnterComplete?.Invoke();
 			return true;
 		}
 
 		public override bool Exit()
 		{
-			SceneUtilities.UnloadAllScenes();
-			OnStateExitState?.Invoke();
-			OnStateExitComplete?.Invoke();
+			OnExit?.Invoke();
+			OnExitComplete?.Invoke();
 			return true;
 		}
 
