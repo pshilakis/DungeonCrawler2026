@@ -13,10 +13,10 @@ namespace PGS
 		[SerializeField] private Character characterPrefab;
 		[SerializeField] private Character[] activeCharacters;
 
-		protected override void Awake()
+		protected override async void Awake()
 		{
 			base.Awake();
-			m_StateMachine.Initialize();
+			await m_StateMachine.Initialize();
 		}
 
 		public void SetInputRelay(InputRelay relay)

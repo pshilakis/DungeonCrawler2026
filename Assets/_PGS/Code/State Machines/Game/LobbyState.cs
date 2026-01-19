@@ -9,23 +9,21 @@ namespace PGS
 	{
 		public override bool RequireLoadScreenOnEnter => true;
 
-		public override bool Enter()
+		public override async Task Enter()
 		{
 			Debug.Log($"{this.GetType()} ENTER START @ {DateTime.Now}");
 			//OnStateEnter?.Invoke();
 			SceneUtilities.LoadScenes(requiredScenes);
-			GameManager.Instance.InputRelay.Input.Controls.UI.Enable(); //Enable lobby UI input actionmap
+			//GameManager.Instance.InputRelay.Input.Controls.UI.Enable(); //Enable lobby UI input actionmap
 			Debug.Log($"{this.GetType()} ENTER COMPLETE @ {DateTime.Now}");
 			//OnStateInitialized?.Invoke();
-			return true;
 		}
 
-		public override bool Exit()
+		public override async Task Exit()
 		{
 			GameManager.Instance.InputRelay.Input.Controls.UI.Disable(); //Enable lobby UI input actionmap
 			//OnStateExitState?.Invoke();
 			//OnStateExitComplete?.Invoke();
-			return true;
 		}
 	}
 }

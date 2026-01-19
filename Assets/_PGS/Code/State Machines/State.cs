@@ -26,7 +26,7 @@ namespace PGS
 		/// </summary>
 		public Action OnExitComplete;
 
-		public abstract bool Enter();
-        public abstract bool Exit();
+		public abstract Task Enter();
+        public abstract Task Exit();
     }
 }

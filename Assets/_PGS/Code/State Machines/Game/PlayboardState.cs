@@ -8,12 +8,12 @@ namespace PGS
 	{
 		public override bool RequireLoadScreenOnEnter => true;
 
-		public override bool Enter()
+		public override async Task Enter()
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public override bool Exit()
+		public override async Task Exit()
 		{
 			throw new System.NotImplementedException();
 		}
