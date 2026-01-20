@@ -63,7 +63,7 @@ namespace PGS
 					m_LoadedScenes.Add(scenes[i]);
 				}
 
-				tasks[i] = scenes[i].Load(LoadSceneMode.Additive, ct);
+				tasks[i] = scenes[i].Load(i == 0 ? LoadSceneMode.Single : LoadSceneMode.Additive, ct);
 			}
 
 			await UniTask.WhenAll(tasks);
