@@ -12,17 +12,10 @@ namespace PGS
     public static class SceneUtilities
     {
 		private static SceneLoader m_SceneLoader;
-		private static CoroutineHandle m_LoadCoroutine;
 
 		public static Action<SceneReference, TimeSpan> OnSceneLoadStart;
 		public static Action<SceneReference, TimeSpan> OnSceneLoadEnd;
 		public static Action<TimeSpan> OnAllScenesLoaded;
-
-		/// <summary>
-		/// The queue of Scenes we need to load and want to keep track of the status of
-		/// </summary>
-		private static readonly Queue<SceneData> m_LoadQueue = new Queue<SceneData>();
-		private static readonly Queue<SceneData> m_UnloadQueue = new Queue<SceneData>();
 
 		/// <summary>
 		/// A List of the current Scenes that we have loaded

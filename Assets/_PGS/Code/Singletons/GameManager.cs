@@ -27,11 +27,6 @@ namespace PGS
 			InputRelay.InitializeInput();
 		}
 
-		private void InstantiatePlayers()
-		{
-
-		}
-
 		public void SetCurrentMap(MapData mapData)
 		{
 			if (mapData == null) { return; }

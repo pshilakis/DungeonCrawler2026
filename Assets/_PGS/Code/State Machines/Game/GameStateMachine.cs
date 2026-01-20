@@ -14,7 +14,7 @@ namespace PGS
         [SerializeField] private LobbyState lobbyState;
         [SerializeField] private PlayboardState playboardState;
 
-        public async Task Initialize()
+        public async UniTask Initialize()
         {
 			await SetState(bootState, false, false);
 			await SetState(lobbyState, false, true);

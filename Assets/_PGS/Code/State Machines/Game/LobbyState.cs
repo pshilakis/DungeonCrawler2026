@@ -22,7 +22,6 @@ namespace PGS
 
 		private void RegisterManagerToState(GameViewManager manager)
 		{
-			Debug.Log("huh");
 			if (manager is LobbyViewManager)
 			{
 				m_ViewManager = manager as LobbyViewManager;

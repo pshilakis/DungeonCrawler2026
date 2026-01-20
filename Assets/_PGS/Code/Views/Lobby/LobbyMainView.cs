@@ -2,26 +2,31 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using PGS.UI;
 
 namespace PGS
 {
     public class LobbyMainView : GameView
     {
-        [SerializeField] private Button playButton;
+        [SerializeField] private ButtonHandler playButton;
 
 		protected override void OnEnable()
 		{
 			base.OnEnable();
+			playButton.OnPress += LoadPlayboard;
 		}
+
 
 		protected override void OnDisable()
 		{
+			playButton.OnPress -= LoadPlayboard;
 			base.OnDisable();
 		}
-
-		public void Test()
+		private void LoadPlayboard()
 		{
-			Debug.Log("clicked");
+			Debug.Log("PLAY");
 		}
+
+
     }
 }
