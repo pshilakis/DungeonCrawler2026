@@ -2,7 +2,8 @@ using PGS.Utilities;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Unity.Cinemachine;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+using UnityEngine.SceneManagement;
 
 namespace PGS
 {
@@ -16,20 +17,16 @@ namespace PGS
 
 		public override bool RequireLoadScreenOnEnter => false;
 
-		public override async Task Enter()
+		public override async UniTask Enter()
 		{
-			OnEnter?.Invoke();
 			InstantiateSystemPrefab(sceneLoaderPrefab); //Setup SceneLoader
 			InstantiateSystemPrefab(cameraPrefab);
 			InstantiateSystemPrefab(eventSystemPrefab); //Setup EventSystem for UI Input
-			GameManager.Instance.SetInputRelay(CommonUtilities.AddComponentToNewGameObject<InputRelay>(GameManager.Instance.transform, nameof(InputRelay))); //Setup Input
-			OnEnterComplete?.Invoke();
 		}
 
-		public override async Task Exit()
+		public override async UniTask Exit()
 		{
-			OnExit?.Invoke();
-			OnExitComplete?.Invoke();
+
 		}
 
 

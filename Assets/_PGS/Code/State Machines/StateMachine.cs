@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 
 namespace PGS
@@ -13,6 +14,5 @@ namespace PGS
             get {  return m_CurrentState; }
             protected set { m_CurrentState = value; }
         }
-
     }
 }

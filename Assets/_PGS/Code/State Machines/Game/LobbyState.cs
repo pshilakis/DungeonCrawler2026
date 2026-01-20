@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -9,17 +10,13 @@ namespace PGS
 	{
 		public override bool RequireLoadScreenOnEnter => true;
 
-		public override async Task Enter()
+		public override async UniTask Enter()
 		{
-			Debug.Log($"{this.GetType()} ENTER START @ {DateTime.Now}");
-			//OnStateEnter?.Invoke();
-			SceneUtilities.LoadScenes(requiredScenes);
-			//GameManager.Instance.InputRelay.Input.Controls.UI.Enable(); //Enable lobby UI input actionmap
-			Debug.Log($"{this.GetType()} ENTER COMPLETE @ {DateTime.Now}");
-			//OnStateInitialized?.Invoke();
+			await SceneUtilities.LoadScenes(requiredScenes, cts.Token);	
+			GameManager.Instance.InputRelay.Input.Controls.UI.Enable(); //Enable lobby UI input actionmap
 		}
 
-		public override async Task Exit()
+		public override async UniTask Exit()
 		{
 			GameManager.Instance.InputRelay.Input.Controls.UI.Disable(); //Enable lobby UI input actionmap
 			//OnStateExitState?.Invoke();

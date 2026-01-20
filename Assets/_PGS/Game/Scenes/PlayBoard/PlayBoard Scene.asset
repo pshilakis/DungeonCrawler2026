@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a2b2e2a57dc6564592af3757e6e29c5, type: 3}
   m_Name: PlayBoard Scene
   m_EditorClassIdentifier: Assembly-CSharp::PGS.SceneData
-  sceneAsset: {fileID: 102900000, guid: eea28af0948cc084b9a5b17850e6bae2, type: 3}
-  _sceneDescription: 
-  _sceneRef:
-    _sceneName: Playboard
-    _sceneAssetGUID: eea28af0948cc084b9a5b17850e6bae2
-    _scenePath: Assets/_PGS/Game/Scenes/PlayBoard/Playboard.unity
+  m_SceneAsset: {fileID: 102900000, guid: eea28af0948cc084b9a5b17850e6bae2, type: 3}
+  m_Description: 
+  m_SceneRef:
+    m_SceneName: Playboard
+    m_SceneGUID: eea28af0948cc084b9a5b17850e6bae2
+    m_ScenePath: Assets/_PGS/Game/Scenes/PlayBoard/Playboard.unity
     scene: {}
     status: 0

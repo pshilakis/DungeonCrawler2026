@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -8,12 +9,12 @@ namespace PGS
 	{
 		public override bool RequireLoadScreenOnEnter => true;
 
-		public override async Task Enter()
+		public override async UniTask Enter()
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public override async Task Exit()
+		public override async UniTask Exit()
 		{
 			throw new System.NotImplementedException();
 		}

@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using static PGS.SceneReference;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 namespace PGS
 {
@@ -16,9 +18,9 @@ namespace PGS
 		#region Constructor
 		public SceneReference(SceneAsset asset)
 		{
-			_sceneName = asset.name;
-			_scenePath = AssetDatabase.GetAssetPath(asset);
-			AssetDatabase.TryGetGUIDAndLocalFileIdentifier<SceneAsset>(asset, out _sceneAssetGUID, out long file);
+			m_SceneName = asset.name;
+			m_ScenePath = AssetDatabase.GetAssetPath(asset);
+			AssetDatabase.TryGetGUIDAndLocalFileIdentifier<SceneAsset>(asset, out m_SceneGUID, out long file);
 			status = SceneStatus.UNLOADED;
 		}
 		#endregion
@@ -31,79 +33,28 @@ namespace PGS
 			UNLOADING
 		}
 
-		[ReadOnly] [SerializeField] private string _sceneName;
-		public string SceneName { get { return _sceneName; } }
+		[ReadOnly][SerializeField] private string m_SceneName;
+		public string SceneName { get { return m_SceneName; } }
 
-		[ReadOnly][SerializeField] private string _sceneAssetGUID;
-		public string SceneGUID { get { return _sceneAssetGUID; } }
+		[ReadOnly][SerializeField] private string m_SceneGUID;
+		public string SceneGUID { get { return m_SceneGUID; } }
 
-		[ReadOnly][SerializeField] private string _scenePath;
-		public string Path { get { return _scenePath; } }
+		[ReadOnly][SerializeField] private string m_ScenePath;
+		public string Path { get { return m_ScenePath; } }
 
 		[ReadOnly] public Scene scene;
-		[ReadOnly] public SceneStatus status;
-		public SceneStatus Status { get { return status; } }
+		[ReadOnly][SerializeField] private SceneStatus status;
 
-		//public bool IsLoaded { get { return scene.isLoaded ; } }
+		public SceneStatus Status
+		{
+			get { return status;  }
+			private set { status = value; }
+		}
 
-
-		//#region Events
-		//public delegate void SceneEvent(SceneReference sceneRef, Scene? scene = null);
-		//public event SceneEvent OnSceneLoading;
-		//public event SceneEvent OnSceneLoaded;
-		//public event SceneEvent OnSceneUnloading;
-		//public event SceneEvent OnSceneUnloaded;
-
-		//public void SetLoading()
-		//{
-		//	status = SceneStatus.LOADING;
-		//	//OnSceneLoading?.Invoke(this);
-		//}
-
-		//public virtual void SetLoaded(bool setActive = true)
-		//{
-		//	status = SceneStatus.LOADED;
-		//	//scene = SceneManager.GetSceneByName(_sceneName);
-		//	//if (setActive)
-		//	//{
-		//	//	SceneManager.SetActiveScene(scene);
-		//	//}
-
-		//	//OnSceneLoaded?.Invoke(this, scene);
-		//}
-
-		//public void SetUnloading()
-		//{
-		//	status = SceneStatus.UNLOADING;
-		//	//OnSceneUnloading?.Invoke(this);
-		//}
-
-		//public virtual void SetUnloaded()
-		//{
-		//	status = SceneStatus.UNLOADED;
-		//	//OnSceneUnloaded?.Invoke(this);
-		//}
-		//#endregion
-
-		//public bool IsLoading()
-		//{
-		//	return status == SceneStatus.LOADING;
-		//}
-
-		//public bool IsLoaded()
-		//{
-		//	return status == SceneStatus.LOADED;
-		//}
-
-		//public bool IsUnloading()
-		//{
-		//	return status == SceneStatus.UNLOADING;
-		//}
-
-		//public bool IsUnloaded()
-		//{
-		//	return status == SceneStatus.UNLOADED;
-		//}
+		public void SetStatus(SceneStatus status)
+		{
+			Status = status;
+		}
 
 		/// <summary>
 		/// For troubleshooting issues with scenes since they can be weird
@@ -111,7 +62,7 @@ namespace PGS
 		public void DebugSceneReference()
 		{
 			string message = $"[SCENEREF DEBUG]\n";
-			message += $"> name: {_sceneName}\n";
+			message += $"> name: {m_SceneName}\n";
 			message += $"> status: {status}\n";
 			message += $"> scene: {scene}\n";
 			message += $"> scene.path: {scene.path}\n";
@@ -125,16 +76,13 @@ namespace PGS
 	[CreateAssetMenu(fileName = "New SceneData", menuName = "PGS/Scriptable Objects/Scenes/Scene Data")]
 	public class SceneData : ScriptableObject, ISerializationCallbackReceiver
 	{
-		[SerializeField] private SceneAsset sceneAsset;
-		[SerializeField] [Multiline] private string _sceneDescription;
+		[SerializeField] private SceneAsset m_SceneAsset;
+		[SerializeField] [Multiline] private string m_Description;
 
-		[SerializeField] private SceneReference _sceneRef;
-		public SceneReference SceneRef
-		{
-			get { return _sceneRef; }
-			private set { _sceneRef = value; }
-		}
+		[SerializeField] private SceneReference m_SceneRef;
+		public string SceneName { get { return m_SceneRef.SceneName; }  }
 
+		#region Serialization
 		public void OnBeforeSerialize()
 		{
 			SerializeSceneData();
@@ -144,13 +92,13 @@ namespace PGS
 
 		private void SerializeSceneData()
 		{
-			if (sceneAsset == null)
+			if (m_SceneAsset == null)
 			{
-				SceneRef = null;
+				m_SceneRef = null;
 			}
 			else
 			{
-				SceneRef = CreateSceneReference(sceneAsset);
+				m_SceneRef = CreateSceneReference(m_SceneAsset);
 			}
 		}
 
@@ -168,33 +116,38 @@ namespace PGS
 
 			return new SceneReference(asset);
 		}
+		#endregion
 
-		public void SetStatus(SceneStatus status)
+		public bool IsLoaded()
 		{
-			SceneRef.status = status;
+			return m_SceneRef.Status == SceneStatus.LOADED;
 		}
 
-		public bool ValidateSceneFiles()
+		public bool CanBeLoaded()
 		{
-			//if (StartupScene == null)
-			//{
-			//	Debug.LogWarning($"SCENE LOAD ERROR: STARTUP SCENE NOT FOUND!");
-			//	return false;
-			//}
-			
-			//if (LoadingScene == null)
-			//{
-			//	Debug.LogWarning($"SCENE LOAD ERROR: LOBBY SCENE NOT FOUND!");
-			//	return false;
-			//}
-			
-			//if (GameScene == null)
-			//{
-			//	Debug.LogWarning($"SCENE LOAD ERROR: GAME SCENE NOT FOUND!");
-			//	return false;
-			//}
+			return !IsLoaded() && m_SceneRef.Status == SceneStatus.UNLOADED;
+		}
 
-			return true;
+		public async UniTask Load(LoadSceneMode mode, CancellationToken ct)
+		{
+			if (CanBeLoaded())
+			{
+				ct.ThrowIfCancellationRequested();
+				m_SceneRef.SetStatus(SceneStatus.LOADING);
+				await SceneManager.LoadSceneAsync(m_SceneRef.SceneName, mode);
+				m_SceneRef.SetStatus(SceneStatus.LOADED);
+			}
+		}
+
+		public async UniTask Unload(CancellationToken ct)
+		{
+			if (IsLoaded())
+			{
+				ct.ThrowIfCancellationRequested();
+				m_SceneRef.SetStatus(SceneStatus.UNLOADING);
+				await SceneManager.UnloadSceneAsync(m_SceneRef.SceneName);
+				m_SceneRef.SetStatus(SceneStatus.UNLOADED);
+			}
 		}
 	}
 }

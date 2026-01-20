@@ -167,6 +167,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1141566109363183624, guid: 9c3d2824045e0f24283bb5ccf9774ec5, type: 3}
+      propertyPath: m_StateMachine.lobbyState.requiredScenes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1141566109363183624, guid: 9c3d2824045e0f24283bb5ccf9774ec5, type: 3}
+      propertyPath: 'm_StateMachine.lobbyState.requiredScenes.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8789447fe408648439f2c5c090f901f1, type: 2}
     - target: {fileID: 5986077373240033860, guid: 9c3d2824045e0f24283bb5ccf9774ec5, type: 3}
       propertyPath: m_Name
       value: '[Game Manager]'

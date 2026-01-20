@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Animancer;
 using MEC;
+using Cysharp.Threading.Tasks;
 
 namespace PGS
 {
@@ -21,8 +20,8 @@ namespace PGS
         [SerializeField] private TextMeshProUGUI m_LoadingText;
 
 		[Header("Animations")]
-		[SerializeField] private ClipTransition intro; //change this to a Animancer Transition
-		[SerializeField] private ClipTransition outro; //change this to a Animancer Transition
+		[SerializeField] private ClipTransition intro;
+		[SerializeField] private ClipTransition outro;
 
 		private AnimancerComponent m_Animator;
 
@@ -41,59 +40,44 @@ namespace PGS
 		/// Show the loading screen (with animation)
 		/// </summary>
 		/// <returns></returns>
-		public IEnumerator<float> Show(bool animated)
+		public async UniTask Show(bool animated)
 		{
-			if (Enabled) { yield break; } //if the loading screen isn't enabled, then there's nothing to hide
+			if (Enabled) { return; } //if the loading screen is already showing, we can't show it again
 
-			m_OnOffRoot.SetActive(true);
 			AnimancerState state = m_Animator.Play(intro.Clip);
 			state.Time = 0f;
 			state.Weight = 1f;
 
-			if (animated)
+			if (!animated)
 			{
-				//Task.Delay((int)state.Length * 1000); // multiply (int) seconds by 1000 to get milliseconds
-				//await Task.Delay((int) * 1000);
-				yield return Timing.WaitForSeconds(state.Length);
-			}
-			else
-			{
-				state.FinishImmediately(); //Jump to the last frame of the intro animation
-				yield return Timing.WaitForOneFrame;
+				state.FinishImmediately();
 			}
 
+			await state;
 
-			Debug.Log($"Loading Screen Show @ {DateTime.Now.TimeOfDay}");
+			//Debug.Log($"Loading Screen Show @ {DateTime.Now.TimeOfDay}");
 		}
 
 		/// <summary>
 		/// Hide the loading screen
 		/// </summary>
 		/// <returns></returns>
-		public IEnumerator<float> Hide(bool animated)
+		public async UniTask Hide(bool animated)
 		{
-			if (!Enabled) { yield break; } //if the loading screen isn't enabled, then there's nothing to hide
+			if (!Enabled) { return; } //if the loading screen isn't enabled, then there's nothing to hide
 
 			AnimancerState state = m_Animator.Play(outro.Clip); //Play the outro animation
 			state.Weight = 1f;
 			state.Time = 0f;
 
-			if (animated)
+			if (!animated)
 			{
-				Debug.Log("animated");
-				//Task.Delay((int)state.Length * 1000); // multiply (int) seconds by 1000 to get milliseconds
-				//await Task.Delay((int) * 1000);
-				yield return Timing.WaitForSeconds(state.Length);
-			}
-			else
-			{
-				Debug.Log("instant");
-				//state.FinishImmediately(); //Jump to the last frame of the outro animation
-				yield return Timing.WaitForOneFrame;
+				state.FinishImmediately();
 			}
 
-			m_OnOffRoot.SetActive(false);
-			Debug.Log($"Loading Screen Hide @ {DateTime.Now.TimeOfDay}");
+			await state;
+
+			//Debug.Log($"Loading Screen Hide @ {DateTime.Now.TimeOfDay}");
 		}
 	}
 }

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using MEC;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 namespace PGS
 {
@@ -22,97 +24,64 @@ namespace PGS
 		private static readonly Queue<SceneData> m_LoadQueue = new Queue<SceneData>();
 		private static readonly Queue<SceneData> m_UnloadQueue = new Queue<SceneData>();
 
+		/// <summary>
+		/// A List of the current Scenes that we have loaded
+		/// </summary>
+		private static List<SceneData> m_LoadedScenes = new List<SceneData>();
+		private static UniTask[] tasks;
+
 		public static void RegisterSceneLoader(SceneLoader loader)
 		{
 			m_SceneLoader = loader;
 			Debug.Log("Scene Loader Registered!");
 		}
 
+		#region Show/Hide Loading Screen
 		public static bool LoadingScreenEnabled { get { return m_SceneLoader.Enabled; } }
 
-		#region Show/Hide Loading Screen
-		public static CoroutineHandle ShowLoadScreen(bool playIntroAnimation)
+		public static async UniTask ShowLoadScreen(bool playIntroAnimation)
 		{
-			return Timing.RunCoroutine(m_SceneLoader.Show(playIntroAnimation));
+			await m_SceneLoader.Show(playIntroAnimation);
 		}
 
-		public static CoroutineHandle HideLoadScreen(bool playOutroAnimation)
+		public static async UniTask HideLoadScreen(bool playOutroAnimation)
 		{
-			return Timing.RunCoroutine(m_SceneLoader.Hide(playOutroAnimation));
+			await m_SceneLoader.Hide(playOutroAnimation);
 		}
 		#endregion
 
 		#region Load/Unload Scenes
-		private static IEnumerator<float> LoadQueue()
+		public static async UniTask LoadScenes(SceneData[] scenes, CancellationToken ct)
 		{
-			int totalSceneCount = m_LoadQueue.Count;
-			Debug.Log($"Total Scenes Queued to Load: {totalSceneCount}");
+			await UnloadAllScenes(ct);
 
-			while (m_LoadQueue.Count > 0)
+			tasks = new UniTask[scenes.Length];
+			for (int i = 0;	i < scenes.Length; i++)
 			{
-				int sceneNum = m_LoadQueue.Count;
-				SceneData scene = m_LoadQueue.Dequeue();
-
-				if (scene.SceneRef.Status != SceneReference.SceneStatus.LOADED)
+				if (scenes[i].CanBeLoaded())
 				{
-					Debug.Log($"<color=#00ff00>Loading Scene ({sceneNum}/{totalSceneCount})</color>: {scene.SceneRef.SceneName} @ {DateTime.Now.TimeOfDay}");
-
-					OnSceneLoadStart?.Invoke(scene.SceneRef, DateTime.Now.TimeOfDay);
-					//scene.SetStatus(SceneReference.SceneStatus.LOADING);
-					AsyncOperation op = SceneManager.LoadSceneAsync(scene.SceneRef.SceneName, sceneNum == 1 ? LoadSceneMode.Single : LoadSceneMode.Additive);
-					yield return Timing.WaitUntilDone(op);
-					OnSceneLoadEnd?.Invoke(scene.SceneRef, DateTime.Now.TimeOfDay);
-					//scene.SetStatus(SceneReference.SceneStatus.LOADED);
-					yield return Timing.WaitForOneFrame;
+					m_LoadedScenes.Add(scenes[i]);
 				}
+
+				tasks[i] = scenes[i].Load(LoadSceneMode.Additive, ct);
 			}
 
-			OnAllScenesLoaded?.Invoke(DateTime.Now.TimeOfDay);
-			m_LoadQueue.Clear();
+			await UniTask.WhenAll(tasks);
 		}
 
-		private static IEnumerator<float> Unload()
+		public static async UniTask UnloadAllScenes(CancellationToken ct)
 		{
-			int totalSceneCount = m_UnloadQueue.Count;
-			while(m_UnloadQueue.Count > 0)
+			if (m_LoadedScenes.Count == 0) { return; }
+			Debug.Log($"Unloading {m_LoadedScenes.Count} Scenes");
+
+			tasks = new UniTask[m_LoadedScenes.Count];
+			for (int i = 0; i < m_LoadedScenes.Count; i++)
 			{
-				int sceneNum = m_UnloadQueue.Count;
-				SceneData scene = m_UnloadQueue.Dequeue();
-
-				yield return Timing.WaitUntilDone(SceneManager.UnloadSceneAsync(scene.SceneRef.SceneName));
-			}
-		}
-
-		public static void QueueSceneLoad(SceneData scene)
-		{
-			if (m_LoadQueue.Contains(scene)) { return; }
-			m_LoadQueue.Enqueue(scene);
-		}
-
-		public static void LoadScene(SceneData scene)
-		{
-			QueueSceneLoad(scene);
-			m_LoadCoroutine = Timing.RunCoroutineSingleton(LoadQueue(), m_LoadCoroutine, SingletonBehavior.Wait);
-		}
-
-		public static void LoadScenes(SceneData[] scenes)
-		{
-			foreach (SceneData scene in scenes)
-			{
-				QueueSceneLoad(scene);
+				tasks[i] = m_LoadedScenes[i].Unload(ct);
 			}
 
-			m_LoadCoroutine = Timing.RunCoroutineSingleton(LoadQueue(), m_LoadCoroutine, SingletonBehavior.Wait);
-		}
+			await UniTask.WhenAll(tasks);
 
-		public static void UnloadScene(SceneData scene)
-		{
-
-		}
-
-		public static void UnloadAllScenes()
-		{
-			Debug.Log("Unloading Scenes");
 		}
 		#endregion
 	}

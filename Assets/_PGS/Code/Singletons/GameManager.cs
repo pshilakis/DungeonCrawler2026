@@ -1,3 +1,4 @@
+using PGS.Utilities;
 using UnityEngine;
 
 namespace PGS
@@ -16,12 +17,14 @@ namespace PGS
 		protected override async void Awake()
 		{
 			base.Awake();
+			SetInputRelay(CommonUtilities.AddComponentToNewGameObject<InputRelay>(this.transform, nameof(InputRelay))); //Setup Input
 			await m_StateMachine.Initialize();
 		}
 
 		public void SetInputRelay(InputRelay relay)
 		{
 			InputRelay = relay;
+			InputRelay.InitializeInput();
 		}
 
 		private void InstantiatePlayers()

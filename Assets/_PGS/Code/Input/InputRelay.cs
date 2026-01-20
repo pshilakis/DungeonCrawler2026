@@ -32,11 +32,6 @@ namespace PGS
             Debug.Log($"release @ {time}");
         }
 
-		private void Start()
-        {
-            InitializeInput();
-        }
-
         private Vector3Int GetWorldGridPointUnderCursor()
         {
             Vector3 cast = GetCursorWorldPosition();

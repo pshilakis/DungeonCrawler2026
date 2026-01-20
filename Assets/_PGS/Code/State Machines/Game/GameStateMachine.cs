@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 namespace PGS
 {
@@ -13,41 +14,33 @@ namespace PGS
         [SerializeField] private LobbyState lobbyState;
         [SerializeField] private PlayboardState playboardState;
 
-        private CoroutineHandle m_SetStateCoroutine;
-
         public async Task Initialize()
         {
 			await SetState(bootState, false, false);
-			await SetState(lobbyState, false, false);
-   //         bootState.OnEnterComplete += LoadLobby;
-			//Timing.RunCoroutineSingleton(
-   //             coroutine: SetState(bootState, false, false),
-   //             handle: m_SetStateCoroutine,
-   //             behaviorOnCollision: SingletonBehavior.Wait
-   //             );
-   //         bootState.OnEnterComplete -= LoadLobby;
+			await SetState(lobbyState, false, true);
 		}
 
-  //      private void LoadLobby()
-  //      {
-		//	Timing.RunCoroutineSingleton(SetState(lobbyState, false, true), m_SetStateCoroutine, SingletonBehavior.Wait);
-		//}
-
-        public async Task SetState(GameState newState, bool animateIntro, bool animateOutro)
+        public async UniTask SetState(GameState newState, bool animateIntro, bool animateOutro)
         {
-            if (CurrentState == newState) { await Task.Yield(); }
+            if (CurrentState == newState) { return; }
 
-            //Debug.Log($"{newState} > intro: {animateIntro} | outro: {animateOutro}");
             GameState previousState = CurrentState;
             Debug.Log($"<color=#00ccff>Game State Change:</color> {previousState?.GetType()} > {newState.GetType()}");
 
 			if (previousState != null)
 			{
+				await SceneUtilities.ShowLoadScreen(animateIntro);
 				await previousState.Exit();
 			}
 
             CurrentState = newState;
 			await CurrentState.Enter();
+
+			if (previousState != null && CurrentState != bootState)
+			{
+				await SceneUtilities.HideLoadScreen(animateOutro);
+			}
+			
    //         if (CurrentState.RequireLoadScreenOnEnter && CurrentState != bootState) //If we require a load screen and we're not entering boot
 			//{
 			//	yield return Timing.WaitUntilDone(SceneUtilities.ShowLoadScreen(animateIntro));

@@ -1,4 +1,6 @@
+using Cysharp.Threading.Tasks;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -26,7 +28,9 @@ namespace PGS
 		/// </summary>
 		public Action OnExitComplete;
 
-		public abstract Task Enter();
-        public abstract Task Exit();
+		protected CancellationTokenSource cts = new CancellationTokenSource();
+
+		public abstract UniTask Enter();
+        public abstract UniTask Exit();
     }
 }
