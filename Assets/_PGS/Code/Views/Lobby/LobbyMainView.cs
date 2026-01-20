@@ -1,32 +1,37 @@
-using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using PGS.UI;
 
 namespace PGS
 {
     public class LobbyMainView : GameView
     {
-        [SerializeField] private ButtonHandler playButton;
+        [SerializeField] private ButtonHandler newGameButton;
+        [SerializeField] private ButtonHandler continueGameButton;
 
 		protected override void OnEnable()
 		{
 			base.OnEnable();
-			playButton.OnPress += LoadPlayboard;
+			newGameButton.OnPress += LoadNewGame;
+			continueGameButton.OnPress += LoadExistingGame;
 		}
-
 
 		protected override void OnDisable()
 		{
-			playButton.OnPress -= LoadPlayboard;
+			newGameButton.OnPress -= LoadNewGame;
+			continueGameButton.OnPress -= LoadExistingGame;
 			base.OnDisable();
 		}
-		private void LoadPlayboard()
+
+		private void LoadNewGame()
 		{
-			Debug.Log("PLAY");
+			LobbyState.OnNewGameButtonPressed?.Invoke();
+		}
+
+		private void LoadExistingGame()
+		{
+			LobbyState.OnContinueButtonPressed?.Invoke();
 		}
 
 
-    }
+	}
 }

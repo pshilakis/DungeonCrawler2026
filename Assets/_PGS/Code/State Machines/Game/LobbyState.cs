@@ -12,12 +12,14 @@ namespace PGS
 
 		[ReadOnly][SerializeField] private LobbyViewManager m_ViewManager;
 
+		public static Action OnNewGameButtonPressed;
+		public static Action OnContinueButtonPressed;
+
 		public override async UniTask Enter()
 		{
 			LobbyViewManager.OnInitialize += RegisterManagerToState;
-			await SceneUtilities.LoadScenes(requiredScenes, cts.Token);	
+			await SceneUtilities.LoadScenes(requiredScenes, cts.Token);
 			GameManager.Instance.InputRelay.Input.Controls.UI.Enable(); //Enable lobby UI input actionmap
-
 		}
 
 		private void RegisterManagerToState(GameViewManager manager)

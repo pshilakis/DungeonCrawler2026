@@ -11,12 +11,12 @@ namespace PGS
 
 		public override async UniTask Enter()
 		{
-			throw new System.NotImplementedException();
+			await SceneUtilities.LoadScenes(requiredScenes, cts.Token);
 		}
 
 		public override async UniTask Exit()
 		{
-			throw new System.NotImplementedException();
+			
 		}
 	}
 }

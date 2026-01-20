@@ -46,8 +46,6 @@ namespace PGS
 		#region Load/Unload Scenes
 		public static async UniTask LoadScenes(SceneData[] scenes, CancellationToken ct)
 		{
-			await UnloadAllScenes(ct);
-
 			tasks = new UniTask[scenes.Length];
 			for (int i = 0;	i < scenes.Length; i++)
 			{
@@ -56,7 +54,8 @@ namespace PGS
 					m_LoadedScenes.Add(scenes[i]);
 				}
 
-				tasks[i] = scenes[i].Load(i == 0 ? LoadSceneMode.Single : LoadSceneMode.Additive, ct);
+				LoadSceneMode mode = i == 0 ? LoadSceneMode.Single : LoadSceneMode.Additive;
+				tasks[i] = scenes[i].Load(mode, ct);
 			}
 
 			await UniTask.WhenAll(tasks);

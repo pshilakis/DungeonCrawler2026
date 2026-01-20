@@ -16,11 +16,19 @@ namespace PGS
 
         public async UniTask Initialize()
         {
+			//Subscribe to state events
+			LobbyState.OnNewGameButtonPressed += LoadPlayboard;
+
 			await SetState(bootState, false, false);
 			await SetState(lobbyState, false, true);
 		}
 
-        public async UniTask SetState(GameState newState, bool animateIntro, bool animateOutro)
+		public async void LoadPlayboard()
+		{
+			await SetState(playboardState, true, true);
+		}
+
+        private async UniTask SetState(GameState newState, bool animateIntro, bool animateOutro)
         {
             if (CurrentState == newState) { return; }
 
@@ -40,6 +48,8 @@ namespace PGS
 			{
 				await SceneUtilities.HideLoadScreen(animateOutro);
 			}
+
+			//Add some kind of state.activate() to enable input etc after the loading screen has finished animating?
 		}
 	}
 }
