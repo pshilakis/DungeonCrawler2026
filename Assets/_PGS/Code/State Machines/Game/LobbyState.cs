@@ -6,7 +6,7 @@ using UnityEngine;
 namespace PGS
 {
 	[System.Serializable]
-	public class LobbyState : GameState
+	public class LobbyState : GameState, IState
 	{
 		public override bool RequireLoadScreenOnEnter => true;
 
@@ -18,7 +18,7 @@ namespace PGS
 		public override async UniTask Enter()
 		{
 			LobbyViewManager.OnInitialize += RegisterManagerToState;
-			await SceneUtilities.LoadScenes(requiredScenes, cts.Token);
+			await SceneUtilities.LoadScenes(requiredScenes);
 			GameManager.Instance.InputRelay.Input.Controls.UI.Enable(); //Enable lobby UI input actionmap
 		}
 
@@ -36,6 +36,7 @@ namespace PGS
 			GameManager.Instance.InputRelay.Input.Controls.UI.Disable(); //Enable lobby UI input actionmap
 			//OnStateExitState?.Invoke();
 			//OnStateExitComplete?.Invoke();
+			gameObject.SetActive(false);
 
 		}
 	}

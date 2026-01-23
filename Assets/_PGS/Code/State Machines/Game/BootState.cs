@@ -26,7 +26,7 @@ namespace PGS
 
 		public override async UniTask Exit()
 		{
-
+			this.gameObject.SetActive(false);
 		}
 
 

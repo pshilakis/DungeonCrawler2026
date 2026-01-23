@@ -13,8 +13,8 @@ namespace PGS
     {
 		private static SceneLoader m_SceneLoader;
 
-		public static Action<SceneReference, TimeSpan> OnSceneLoadStart;
-		public static Action<SceneReference, TimeSpan> OnSceneLoadEnd;
+		public static Action<SceneData, TimeSpan> OnSceneLoadStart;
+		public static Action<SceneData, TimeSpan> OnSceneLoadEnd;
 		public static Action<TimeSpan> OnAllScenesLoaded;
 
 		/// <summary>
@@ -44,7 +44,7 @@ namespace PGS
 		#endregion
 
 		#region Load/Unload Scenes
-		public static async UniTask LoadScenes(SceneData[] scenes, CancellationToken ct)
+		public static async UniTask LoadScenes(SceneData[] scenes, CancellationToken ct = default)
 		{
 			tasks = new UniTask[scenes.Length];
 			for (int i = 0;	i < scenes.Length; i++)
@@ -59,9 +59,10 @@ namespace PGS
 			}
 
 			await UniTask.WhenAll(tasks);
+			OnAllScenesLoaded?.Invoke(DateTime.Now.TimeOfDay);
 		}
 
-		public static async UniTask UnloadAllScenes(CancellationToken ct)
+		public static async UniTask UnloadAllScenes(CancellationToken ct = default)
 		{
 			if (m_LoadedScenes.Count == 0) { return; }
 			Debug.Log($"Unloading {m_LoadedScenes.Count} Scenes");

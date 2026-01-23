@@ -42,18 +42,14 @@ namespace PGS
 		[ReadOnly][SerializeField] private string m_ScenePath;
 		public string Path { get { return m_ScenePath; } }
 
-		[ReadOnly] public Scene scene;
+		[HideInInspector]public Scene scene;
 		[ReadOnly][SerializeField] private SceneStatus status;
 
-		public SceneStatus Status
-		{
-			get { return status;  }
-			private set { status = value; }
-		}
+		public SceneStatus Status { get { return status; } }
 
 		public void SetStatus(SceneStatus status)
 		{
-			Status = status;
+			this.status = status;
 		}
 
 		/// <summary>
@@ -85,6 +81,7 @@ namespace PGS
 		#region Serialization
 		public void OnBeforeSerialize()
 		{
+			if (Application.isPlaying) { return; }
 			SerializeSceneData();
 		}
 
@@ -128,22 +125,22 @@ namespace PGS
 			return !IsLoaded() && m_SceneRef.Status == SceneStatus.UNLOADED;
 		}
 
-		public async UniTask Load(LoadSceneMode mode, CancellationToken ct)
+		public async UniTask Load(LoadSceneMode mode, CancellationToken ct = default)
 		{
 			if (CanBeLoaded())
 			{
-				ct.ThrowIfCancellationRequested();
+				//ct.ThrowIfCancellationRequested();
 				m_SceneRef.SetStatus(SceneStatus.LOADING);
 				await SceneManager.LoadSceneAsync(m_SceneRef.SceneName, mode);
 				m_SceneRef.SetStatus(SceneStatus.LOADED);
 			}
 		}
 
-		public async UniTask Unload(CancellationToken ct)
+		public async UniTask Unload(CancellationToken ct = default)
 		{
 			if (IsLoaded())
 			{
-				ct.ThrowIfCancellationRequested();
+				//ct.ThrowIfCancellationRequested();
 				m_SceneRef.SetStatus(SceneStatus.UNLOADING);
 				await SceneManager.UnloadSceneAsync(m_SceneRef.SceneName);
 				m_SceneRef.SetStatus(SceneStatus.UNLOADED);

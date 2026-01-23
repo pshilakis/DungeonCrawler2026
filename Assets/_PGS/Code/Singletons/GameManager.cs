@@ -5,14 +5,14 @@ namespace PGS
 {
 	public class GameManager : Singleton<GameManager>
 	{
-		[ColoredHeader("Game State Machine (GSM)", "#ffff55", 14, true)]
-		[SerializeField] private GameStateMachine m_StateMachine;
-
 		public InputRelay InputRelay { get; private set; }
 		
 		[ColoredHeader("Character Prefab References", "#00ccff", 14, true)]
 		[SerializeField] private Character characterPrefab;
 		[SerializeField] private Character[] activeCharacters;
+
+		[ColoredHeader("Game State Machine (GSM)", "#ffff55", 14, true)]
+		[SerializeField] private GameStateMachine m_StateMachine;
 
 		protected override async void Awake()
 		{

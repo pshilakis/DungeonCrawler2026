@@ -3,9 +3,7 @@ using UnityEngine;
 
 namespace PGS
 {
-    public abstract class StateMachine<T, StateType> 
-        where T : class
-        where StateType : State<StateType>
+    public class StateMachine<StateType> where StateType : IState
     {
 		private StateType m_CurrentState;
 

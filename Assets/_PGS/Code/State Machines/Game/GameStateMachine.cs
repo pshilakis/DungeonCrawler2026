@@ -8,7 +8,7 @@ using Cysharp.Threading.Tasks;
 namespace PGS
 {
     [System.Serializable]
-    public class GameStateMachine : StateMachine<GameStateMachine, GameState>
+    public class GameStateMachine : StateMachine<GameState>
     {
         [SerializeField] private BootState bootState;
         [SerializeField] private LobbyState lobbyState;
@@ -18,6 +18,9 @@ namespace PGS
         {
 			//Subscribe to state events
 			LobbyState.OnNewGameButtonPressed += LoadPlayboard;
+
+			lobbyState.gameObject.SetActive(false);
+			playboardState.gameObject.SetActive(false);
 
 			await SetState(bootState, false, false);
 			await SetState(lobbyState, false, true);
@@ -30,7 +33,7 @@ namespace PGS
 
         private async UniTask SetState(GameState newState, bool animateIntro, bool animateOutro)
         {
-            if (CurrentState == newState) { return; }
+            if (CurrentState == newState || newState == null) { return; }
 
             GameState previousState = CurrentState;
             Debug.Log($"<color=#00ccff>Game State Change:</color> {previousState?.GetType()} > {newState.GetType()}");
@@ -42,6 +45,7 @@ namespace PGS
 			}
 
             CurrentState = newState;
+			CurrentState.gameObject.SetActive(true);
 			await CurrentState.Enter();
 
 			if (previousState != null && CurrentState != bootState)
