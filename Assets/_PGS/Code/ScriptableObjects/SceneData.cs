@@ -81,7 +81,6 @@ namespace PGS
 		#region Serialization
 		public void OnBeforeSerialize()
 		{
-			if (Application.isPlaying) { return; }
 			SerializeSceneData();
 		}
 

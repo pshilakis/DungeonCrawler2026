@@ -7,6 +7,8 @@ namespace PGS
 	[System.Serializable]
 	public class PlayboardState : GameState
 	{
+		[SerializeField] private Character[] activeCharacters;
+
 		[SerializeField] private NewGameState newGameState;
 		[SerializeField] private PlayboardSubstate characterCreationState;
 

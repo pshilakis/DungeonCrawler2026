@@ -19,8 +19,11 @@ namespace PGS
         [SerializeField] private Image m_LoadingImage;
         [SerializeField] private TextMeshProUGUI m_LoadingText;
 
-		[Header("Animations")]
+		[Header("Default Animations")]
+		[Tooltip("The default loading screen intro animation")]
 		[SerializeField] private ClipTransition intro;
+
+		[Tooltip("The default loading screen outro animation")]
 		[SerializeField] private ClipTransition outro;
 
 		private AnimancerComponent m_Animator;
@@ -43,6 +46,7 @@ namespace PGS
 		public async UniTask Show(bool animated)
 		{
 			if (Enabled) { return; } //if the loading screen is already showing, we can't show it again
+			m_OnOffRoot.gameObject.SetActive(true);
 
 			AnimancerState state = m_Animator.Play(intro.Clip);
 			state.Time = 0f;
@@ -76,6 +80,7 @@ namespace PGS
 			}
 
 			await state;
+			m_OnOffRoot.gameObject.SetActive(false);
 
 			//Debug.Log($"Loading Screen Hide @ {DateTime.Now.TimeOfDay}");
 		}

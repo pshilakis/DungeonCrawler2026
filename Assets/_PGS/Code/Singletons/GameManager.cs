@@ -9,7 +9,6 @@ namespace PGS
 		
 		[ColoredHeader("Character Prefab References", "#00ccff", 14, true)]
 		[SerializeField] private Character characterPrefab;
-		[SerializeField] private Character[] activeCharacters;
 
 		[ColoredHeader("Game State Machine (GSM)", "#ffff55", 14, true)]
 		[SerializeField] private GameStateMachine m_StateMachine;
