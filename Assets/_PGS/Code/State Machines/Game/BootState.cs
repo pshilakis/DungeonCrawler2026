@@ -32,7 +32,6 @@ namespace PGS
 			this.gameObject.SetActive(false);
 		}
 
-
 		private void InstantiateSystemPrefab(Component component)
 		{
 			GameObject obj = GameObject.Instantiate(component.gameObject);
