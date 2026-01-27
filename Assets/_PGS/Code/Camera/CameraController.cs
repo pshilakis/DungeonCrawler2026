@@ -57,10 +57,10 @@ namespace PGS
                 directionXZ = -directionXZ;
             }
 
-			transform.position += directionXZ * speed * deltaTime;
+			//transform.position += directionXZ * speed * deltaTime;
 
-            //Vector3 newPosition = transform.position + directionXZ * speed * deltaTime;
-            //transform.position = bounds.ClampToBounds(newPosition);
+            Vector3 newPosition = transform.position + directionXZ * speed * deltaTime;
+            transform.position = m_Bounds.ClampToBounds(newPosition);
         }
     }
 }

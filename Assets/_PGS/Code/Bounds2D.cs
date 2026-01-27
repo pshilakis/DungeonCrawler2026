@@ -40,7 +40,7 @@ namespace PGS
 			float clampZ = Mathf.Clamp(point.z, ZMin, ZMax);
 			Vector3 clamped = new Vector3(clampX, point.y, clampZ);
 
-			Debug.Log($"Intended Position: {point} | Clamped Position: {clamped}");
+			//Debug.Log($"Intended Position: {point} | Clamped Position: {clamped}");
 			return clamped;
 		}
 
