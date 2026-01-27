@@ -34,7 +34,7 @@ namespace PGS
             if (CurrentState == newState || newState == null) { return; }
 
             GameState previousState = CurrentState;
-            Debug.Log($"<color=#00ccff>Game State Change:</color> {previousState?.GetType()} > {newState.GetType()}");
+            Debug.Log($"<color=#00ccff>{typeof(GameState)} Change:</color> {previousState?.GetType()} > {newState.GetType()}");
 
 			if (previousState != null)
 			{
