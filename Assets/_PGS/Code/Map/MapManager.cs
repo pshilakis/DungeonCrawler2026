@@ -1,37 +1,39 @@
-using PGS.Utilities;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace PGS
 {
-	[DisallowMultipleComponent]
     public class MapManager : MonoBehaviour
     {
-		[SerializeField] private MapTile[] startTiles;
-		public MapTile[] StartTiles { get { return startTiles; } }
+        [SerializeField] private CameraController m_Camera;
+		public CameraController MapCameraController {  get { return m_Camera; } }
 
-		private MapData m_MapData;
+        [SerializeField] private Map m_LoadedMap;
+
 		private Dictionary<Character, MapTile> m_OccupiedTiles = new Dictionary<Character, MapTile>();
 
-		private void OnEnable()
+		private PlayboardState m_State;
+
+		#region Events
+		public static Func<MapManager, PlayboardState> OnManagerLoaded;
+		#endregion
+
+		private void Awake()
 		{
-			MapTile.OnTileUpdated += UpdateTile;
+			m_State = OnManagerLoaded?.Invoke(this);
 		}
 
-		private void OnDisable()
-		{
-			MapTile.OnTileUpdated -= UpdateTile;
-		}
+		//private void OnEnable()
+		//{
+		//	MapTile.OnTileUpdated += UpdateTile;
+		//}
 
-		/// <summary>
-		/// Links this instance of a map to its corresponding MapData object
-		/// </summary>
-		/// <param name="data"></param>
-		public void SetData(MapData data)
-		{
-			m_MapData = data;
-		}
+		//private void OnDisable()
+		//{
+		//	MapTile.OnTileUpdated -= UpdateTile;
+		//}
 
 		private void UpdateTile(MapTile tile, Character character)
 		{
@@ -46,13 +48,10 @@ namespace PGS
 			}
 		}
 
-		private void OnDrawGizmos()
-		{
-			foreach (MapTile tile in startTiles)
-			{
-				Gizmos.color = new Color(0, 0.3f, 1f, 0.5f);
-				Gizmos.DrawSphere(tile.Center, 0.5f);
-			}
-		}
-	}
+		public async UniTask LoadMap(MapData data)
+        {
+            m_LoadedMap = data.InstantiateMap();
+			m_Camera.SetBounds(m_LoadedMap.MapBounds);
+        }
+    }
 }

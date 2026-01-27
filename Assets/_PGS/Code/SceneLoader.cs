@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Animancer;
-using MEC;
 using Cysharp.Threading.Tasks;
 
 namespace PGS

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 
 namespace PGS
 {
@@ -17,7 +18,7 @@ namespace PGS
         public async UniTask Initialize()
         {
 			//Subscribe to state events
-			LobbyState.OnNewGameButtonPressed += LoadPlayboard;
+			LobbyState.OnNewGameButtonPressed += StartNewGame;
 
 			lobbyState.gameObject.SetActive(false);
 			playboardState.gameObject.SetActive(false);
@@ -26,7 +27,7 @@ namespace PGS
 			await SetState(lobbyState, false, true);
 		}
 
-		public async void LoadPlayboard()
+		public async void StartNewGame()
 		{
 			await SetState(playboardState, true, true);
 		}
@@ -40,6 +41,12 @@ namespace PGS
 
 			if (previousState != null)
 			{
+				if (previousState is IControlInput)
+				{
+					IControlInput input = previousState as IControlInput;
+					input.EnableInputs();
+				}
+
 				await SceneUtilities.ShowLoadScreen(animateIntro);
 				await previousState.Exit();
 			}
@@ -53,7 +60,12 @@ namespace PGS
 				await SceneUtilities.HideLoadScreen(animateOutro);
 			}
 
-			//Add some kind of state.activate() to enable input etc after the loading screen has finished animating?
+			//Enables Input after the loading screen has been hidden
+			if (CurrentState is IControlInput)
+			{
+				IControlInput input = CurrentState as IControlInput;
+				input.EnableInputs();
+			}
 		}
 	}
 }

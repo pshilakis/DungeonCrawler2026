@@ -3,13 +3,15 @@ using UnityEngine;
 namespace PGS
 {
     [CreateAssetMenu(fileName = "MapData", menuName = "PGS/Scriptable Objects/MapData")]
-    public class MapData : ScriptableObject
-    {
-        [SerializeField] private MapManager mapPrefab;
+    public class MapData : UniqueGUIDScriptableObjectBase
+	{
+        [ColoredHeader("Map Info", 14, true)]
+        [SerializeField] private string m_MapName;
+        [SerializeField] private Map m_MapPrefab;
 
-        public MapManager InstantiateMap()
+        public Map InstantiateMap()
         {
-            MapManager instance = GameObject.Instantiate(mapPrefab);
+            Map instance = GameObject.Instantiate(m_MapPrefab);
             instance.SetData(this);
             return instance;
         }

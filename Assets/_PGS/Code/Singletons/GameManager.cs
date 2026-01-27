@@ -1,10 +1,13 @@
 using PGS.Utilities;
+using System;
 using UnityEngine;
 
 namespace PGS
 {
 	public class GameManager : Singleton<GameManager>
 	{
+		[ColoredHeader("Directory References", "#cc00ff", 14, true)]
+		[SerializeField] private MapDirectory m_MapDirectory;
 		public InputRelay InputRelay { get; private set; }
 		
 		[ColoredHeader("Character Prefab References", "#00ccff", 14, true)]
@@ -13,17 +16,20 @@ namespace PGS
 		[ColoredHeader("Game State Machine (GSM)", "#ffff55", 14, true)]
 		[SerializeField] private GameStateMachine m_StateMachine;
 
+		[SerializeField] private string m_ActiveGameID;
+
 		protected override async void Awake()
 		{
 			base.Awake();
-			SetInputRelay(CommonUtilities.AddComponentToNewGameObject<InputRelay>(this.transform, nameof(InputRelay))); //Setup Input
+			BootState.OnInputRelayInitialized += GetInputRelay;
+			await m_MapDirectory.BuildDirectory();
 			await m_StateMachine.Initialize();
 		}
 
-		public void SetInputRelay(InputRelay relay)
+		private void GetInputRelay(InputRelay relay)
 		{
 			InputRelay = relay;
-			InputRelay.InitializeInput();
+			BootState.OnInputRelayInitialized -= GetInputRelay;
 		}
 
 		public void SetCurrentMap(MapData mapData)

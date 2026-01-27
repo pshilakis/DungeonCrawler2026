@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Unity.Cinemachine;
 using Cysharp.Threading.Tasks;
-using UnityEngine.SceneManagement;
+using System;
 
 namespace PGS
 {
@@ -17,9 +17,12 @@ namespace PGS
 
 		public override bool RequireLoadScreenOnEnter => false;
 
+		public static Action<InputRelay> OnInputRelayInitialized;
+
 		public override async UniTask Enter()
 		{
 			InstantiateSystemPrefab(sceneLoaderPrefab); //Setup SceneLoader
+			SetInputRelay(CommonUtilities.AddComponentToNewGameObject<InputRelay>(this.transform, nameof(InputRelay))); //Setup Input
 			InstantiateSystemPrefab(cameraPrefab);
 			InstantiateSystemPrefab(eventSystemPrefab); //Setup EventSystem for UI Input
 		}
@@ -35,6 +38,13 @@ namespace PGS
 			GameObject obj = GameObject.Instantiate(component.gameObject);
 			obj.name = $"> {component.GetType().Name}";
 			CommonUtilities.SetNewParent(obj, GameManager.Instance.transform);
+		}
+
+		public void SetInputRelay(InputRelay relay)
+		{
+			relay.InitializeInput();
+			OnInputRelayInitialized?.Invoke(relay);
+			Debug.Log("Input Initialized", this);
 		}
 	}
 }
