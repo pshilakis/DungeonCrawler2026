@@ -36,6 +36,8 @@ namespace PGS
 		/// <returns></returns>
 		public Vector3 ClampToBounds(Vector3 point)
 		{
+			if (IsPointWithinBounds(point)) { return point; } //if we're going to be in the bounds, we don't need to calculate anything new
+
 			float clampX = Mathf.Clamp(point.x, XMin, XMax);
 			float clampZ = Mathf.Clamp(point.z, ZMin, ZMax);
 			Vector3 clamped = new Vector3(clampX, point.y, clampZ);
