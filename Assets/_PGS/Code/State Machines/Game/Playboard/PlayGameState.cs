@@ -37,7 +37,7 @@ namespace PGS
 		{
 			if (m_IsDraggingCamera)
 			{
-				//m_CurrentMapManager.MapCameraController.MoveCameraInDirection(GameManager.Instance.InputRelay.Pointer.delta, Time.deltaTime, true);
+				m_Parent.CurrentMap.MapCameraController.MoveCameraInDirection(GameManager.Instance.InputRelay.Pointer.delta, Time.deltaTime, true);
 			}
 		}
 

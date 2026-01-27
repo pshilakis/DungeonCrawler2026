@@ -288,7 +288,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a897e20bfc5334dbfb72f263e576cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PGS.MapManager
-  startTiles:
+  m_MapBounds:
+    m_Bounds:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 28
+      height: 16
+  m_StartTiles:
   - {fileID: 4918770048338628772}
 --- !u!1001 &18515510649391149
 PrefabInstance:

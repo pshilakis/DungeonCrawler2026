@@ -12,7 +12,7 @@ namespace PGS
 
 		[ReadOnly][SerializeField] private LobbyViewManager m_ViewManager;
 
-		public static Action OnNewGameButtonPressed;
+		public static Action<MapData> OnNewGameButtonPressed; //Passes the desired MapData when triggered
 		public static Action OnContinueButtonPressed;
 
 		public override async UniTask Enter()

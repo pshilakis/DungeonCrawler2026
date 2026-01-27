@@ -7,6 +7,7 @@ namespace PGS
 	{
         [ColoredHeader("Map Info", 14, true)]
         [SerializeField] private string m_MapName;
+        public string MapName { get { return m_MapName; } }
         [SerializeField] private Map m_MapPrefab;
 
         public Map InstantiateMap()

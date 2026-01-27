@@ -5,26 +5,27 @@ namespace PGS
 {
     public class LobbyMainView : GameView
     {
-        [SerializeField] private ButtonHandler newGameButton;
+		[SerializeField] private GameSelectButtonOption newGameButton;
+        //[SerializeField] private ButtonHandler newGameButton;
         [SerializeField] private ButtonHandler continueGameButton;
 
 		protected override void OnEnable()
 		{
 			base.OnEnable();
-			newGameButton.OnPress += LoadNewGame;
+			newGameButton.button.OnPress += LoadNewGame;
 			continueGameButton.OnPress += LoadExistingGame;
 		}
 
 		protected override void OnDisable()
 		{
-			newGameButton.OnPress -= LoadNewGame;
+			newGameButton.button.OnPress -= LoadNewGame;
 			continueGameButton.OnPress -= LoadExistingGame;
 			base.OnDisable();
 		}
 
 		private void LoadNewGame()
 		{
-			LobbyState.OnNewGameButtonPressed?.Invoke();
+			LobbyState.OnNewGameButtonPressed?.Invoke(newGameButton.MapData);
 		}
 
 		private void LoadExistingGame()

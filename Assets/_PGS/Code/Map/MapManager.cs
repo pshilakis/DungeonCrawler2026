@@ -50,6 +50,12 @@ namespace PGS
 
 		public async UniTask LoadMap(MapData data)
         {
+			if (data == null)
+			{
+				Debug.LogError("No MapData has been set to load into this MapManager", this);
+				Debug.Break();
+			}
+
             m_LoadedMap = data.InstantiateMap();
 			m_Camera.SetBounds(m_LoadedMap.MapBounds);
         }

@@ -19,7 +19,7 @@ namespace PGS
             if (newState.Equals(CurrentState)) { return; } //same state
             TStateType previousState = CurrentState;
 
-			Debug.Log($"<color=#00ffcc>{nameof(TStateType)}:</color> {previousState?.GetType()} > {newState.GetType()}");
+			Debug.Log($"<color=#00ffcc>{typeof(TStateType)}:</color> {previousState?.GetType()} > {newState.GetType()}");
 
             if (previousState != null)
             {

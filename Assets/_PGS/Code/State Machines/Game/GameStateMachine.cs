@@ -1,10 +1,5 @@
-using MEC;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-using Unity.VisualScripting;
 
 namespace PGS
 {
@@ -27,8 +22,10 @@ namespace PGS
 			await SetState(lobbyState, false, true);
 		}
 
-		public async void StartNewGame()
+		public async void StartNewGame(MapData data)
 		{
+			Debug.Log($"StartNewGame() > {data.MapName}");
+			playboardState.SetMapData(data);
 			await SetState(playboardState, true, true);
 		}
 
