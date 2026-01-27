@@ -41,10 +41,14 @@ namespace PGS
 				if (previousState is IControlInput)
 				{
 					IControlInput input = previousState as IControlInput;
-					input.EnableInputs();
+					input.DisableInputs();
 				}
 
-				await SceneUtilities.ShowLoadScreen(animateIntro);
+				if (newState is IRequireLoadScreen)
+				{
+					await SceneUtilities.ShowLoadScreen(animateIntro);
+				}
+
 				await previousState.Exit();
 			}
 

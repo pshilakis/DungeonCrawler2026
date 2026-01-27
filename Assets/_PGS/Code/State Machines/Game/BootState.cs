@@ -7,6 +7,9 @@ using System;
 
 namespace PGS
 {
+	/// <summary>
+	/// BootState handles setting up all core game services before loading into the first actual scene
+	/// </summary>
 	[System.Serializable]
     public class BootState : GameState
     {
@@ -15,12 +18,13 @@ namespace PGS
 		[SerializeField] private CinemachineBrain cameraPrefab;
 		[SerializeField] private EventSystem eventSystemPrefab;
 
-		public override bool RequireLoadScreenOnEnter => false;
-
 		public static Action<InputRelay> OnInputRelayInitialized;
 
+		#region IState
 		public override async UniTask Enter()
 		{
+			//TODO: load user settings
+			//TODO: init save/load functionality
 			InstantiateSystemPrefab(sceneLoaderPrefab); //Setup SceneLoader
 			SetInputRelay(CommonUtilities.AddComponentToNewGameObject<InputRelay>(this.transform, nameof(InputRelay))); //Setup Input
 			InstantiateSystemPrefab(cameraPrefab);
@@ -31,6 +35,7 @@ namespace PGS
 		{
 			this.gameObject.SetActive(false);
 		}
+		#endregion
 
 		private void InstantiateSystemPrefab(Component component)
 		{

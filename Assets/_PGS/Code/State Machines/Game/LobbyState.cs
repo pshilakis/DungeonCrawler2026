@@ -1,3 +1,4 @@
+using Animancer;
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading.Tasks;
@@ -6,15 +7,20 @@ using UnityEngine;
 namespace PGS
 {
 	[System.Serializable]
-	public class LobbyState : GameState, IState, IControlInput
+	public class LobbyState : GameState, IState, IControlInput, IRequireLoadScreen
 	{
-		public override bool RequireLoadScreenOnEnter => true;
-
 		[ReadOnly][SerializeField] private LobbyViewManager m_ViewManager;
 
 		public static Action<MapData> OnNewGameButtonPressed; //Passes the desired MapData when triggered
 		public static Action OnContinueButtonPressed;
 
+		#region IRequireLoadScreen
+		public ClipTransition CustomIntro { get { return m_CustomIntro; } }
+
+		public ClipTransition CustomOutro { get { return m_CustomOutro; } }
+		#endregion
+
+		#region IState
 		public override async UniTask Enter()
 		{
 			LobbyViewManager.OnInitialize += RegisterManagerToState;
@@ -26,6 +32,7 @@ namespace PGS
 			LobbyViewManager.OnInitialize -= RegisterManagerToState;
 			gameObject.SetActive(false);
 		}
+		#endregion
 
 		private void RegisterManagerToState(GameViewManager manager)
 		{
@@ -35,6 +42,7 @@ namespace PGS
 			}
 		}
 
+		#region IControlInput
 		public void EnableInputs()
 		{
 			GameManager.Instance.InputRelay.Input.Controls.UI.Enable(); //Enable lobby UI input actionmap
@@ -44,5 +52,6 @@ namespace PGS
 		{
 			GameManager.Instance.InputRelay.Input.Controls.UI.Disable(); //Enable lobby UI input actionmap
 		}
+		#endregion
 	}
 }

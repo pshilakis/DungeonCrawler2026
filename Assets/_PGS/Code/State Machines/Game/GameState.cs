@@ -7,12 +7,10 @@ namespace PGS
 {
     public abstract class GameState : MonoBehaviour, IState
     {
-        public abstract bool RequireLoadScreenOnEnter { get; }
-
         [SerializeField] protected SceneData[] requiredScenes;
 
-        [SerializeField] protected ClipTransition customIntro;
-        [SerializeField] protected ClipTransition customOutro;
+        [SerializeField] protected ClipTransition m_CustomIntro;
+        [SerializeField] protected ClipTransition m_CustomOutro;
 
 		public abstract UniTask Enter();
 
