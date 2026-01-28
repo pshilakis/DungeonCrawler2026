@@ -26,7 +26,7 @@ namespace PGS
 			//TODO: load user settings
 			//TODO: init save/load functionality
 			InstantiateSystemPrefab(sceneLoaderPrefab); //Setup SceneLoader
-			SetInputRelay(CommonUtilities.AddComponentToNewGameObject<InputRelay>(this.transform, nameof(InputRelay))); //Setup Input
+			SetInputRelay(CommonUtilities.AddComponentToNewGameObject<InputRelay>(GameManager.Instance.transform, nameof(InputRelay))); //Setup Input
 			InstantiateSystemPrefab(cameraPrefab);
 			InstantiateSystemPrefab(eventSystemPrefab); //Setup EventSystem for UI Input
 		}
@@ -48,7 +48,6 @@ namespace PGS
 		{
 			relay.InitializeInput();
 			OnInputRelayInitialized?.Invoke(relay);
-			Debug.Log("Input Initialized", this);
 		}
 	}
 }

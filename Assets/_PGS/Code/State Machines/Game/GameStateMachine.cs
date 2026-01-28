@@ -1,5 +1,7 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using PGS.Utilities;
+using System;
 
 namespace PGS
 {
@@ -14,6 +16,7 @@ namespace PGS
         {
 			//Subscribe to state events
 			LobbyState.OnNewGameButtonPressed += StartNewGame;
+			//LobbyState.OnContinueButtonPressed += ContinueGame;
 
 			lobbyState.gameObject.SetActive(false);
 			playboardState.gameObject.SetActive(false);
@@ -29,22 +32,30 @@ namespace PGS
 			await SetState(playboardState, true, true);
 		}
 
-        private async UniTask SetState(GameState newState, bool animateIntro, bool animateOutro)
+		private async void ContinueGame(MapData data)
+		{
+			playboardState.SetMapData(data);
+			await SetState(playboardState, true, true);
+		}
+
+		private async UniTask SetState(GameState newState, bool animateIntro, bool animateOutro)
         {
             if (CurrentState == newState || newState == null) { return; }
 
             GameState previousState = CurrentState;
-            Debug.Log($"<color=#00ccff>{typeof(GameState)} Change:</color> {previousState?.GetType()} > {newState.GetType()}");
+			string previousStateName = previousState != null ? previousState.GetType().ToString() : "<color=#ff0000>null</color>";
+			Debug.Log($"<color=#00ccff>{typeof(GameState)} Change:</color> {previousStateName} > {newState.GetType()}");
+
+			IControlInput input;
 
 			if (previousState != null)
 			{
-				if (previousState is IControlInput)
+				if (CommonUtilities.IsConvertable<GameState, IControlInput>(previousState, out input)) //Check if we need to disable any inputs
 				{
-					IControlInput input = previousState as IControlInput;
 					input.DisableInputs();
 				}
 
-				if (newState is IRequireLoadScreen)
+				if (CommonUtilities.IsConvertable<GameState, IRequireLoadScreen>(newState)) //Check if we need to show a loading screen
 				{
 					await SceneUtilities.ShowLoadScreen(animateIntro);
 				}
@@ -61,10 +72,8 @@ namespace PGS
 				await SceneUtilities.HideLoadScreen(animateOutro);
 			}
 
-			//Enables Input after the loading screen has been hidden
-			if (CurrentState is IControlInput)
+			if (CommonUtilities.IsConvertable<GameState, IControlInput>(CurrentState, out input))//Enables Input after the loading screen has been hidden
 			{
-				IControlInput input = CurrentState as IControlInput;
 				input.EnableInputs();
 			}
 		}

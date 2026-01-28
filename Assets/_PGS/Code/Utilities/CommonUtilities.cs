@@ -34,30 +34,28 @@ namespace PGS.Utilities
 		/// <summary>
 		/// Convert one class to another to check if they are compatible
 		/// </summary>
-		/// <typeparam name="F">The type to convert from</typeparam>
-		/// <typeparam name="T">The type to convert to</typeparam>
+		/// <typeparam name="FromType">The type to convert from</typeparam>
+		/// <typeparam name="ToType">The type to convert to</typeparam>
 		/// <param name="from">The class to convert</param>
 		/// <returns>Whether the conversion was successful</returns>
-		public static bool IsConvertable<F,T>(F from)
-			where F : class
-			where T : class
+		public static bool IsConvertable<FromType,ToType>(FromType from)
+			where ToType : class
 		{
-			return from is T;
+			return from is ToType;
 		}
 
 		/// <summary>
 		/// Convert one class to another to check if they are compatible
 		/// </summary>
-		/// <typeparam name="F">The type to convert from</typeparam>
-		/// <typeparam name="T">The type to convert to</typeparam>
+		/// <typeparam name="FromType">The type to convert from</typeparam>
+		/// <typeparam name="ToType">The type to convert to</typeparam>
 		/// <param name="from">The class to convert</param>
 		/// <param name="to">The new class to return</param>
 		/// <returns>Whether the conversion was successful</returns>
-		public static bool IsConvertable<F,T>(F from, out T to)
-			where F : class
-			where T : class
+		public static bool IsConvertable<FromType,ToType>(FromType from, out ToType to)
+			where ToType : class
 		{
-			to = from as T;
+			to = from as ToType;
 			return to != null;
 		}
 

@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using PGS.Utilities;
 using UnityEngine;
 
 namespace PGS
@@ -19,15 +20,17 @@ namespace PGS
             if (newState.Equals(CurrentState)) { return; } //same state
             TStateType previousState = CurrentState;
 
-			Debug.Log($"<color=#00ffcc>{typeof(TStateType)} Change:</color> {previousState?.GetType()} > {newState.GetType()}");
+			string previousStateName = previousState != null ? previousState.GetType().ToString() : "<color=#ff0000>null</color>";
+			Debug.Log($"<color=#00ffcc>{typeof(TStateType)} Change:</color> {previousStateName} > {newState.GetType()}");
+
+            IControlInput input;
 
             if (previousState != null)
             {
-                if (previousState is IControlInput)
+                if (CommonUtilities.IsConvertable<TStateType, IControlInput>(previousState, out input))
                 {
-                    IControlInput input = previousState as IControlInput;
-                    input.DisableInputs();
-                }
+					input.DisableInputs();
+				}
 
 				await previousState.Exit();
 			}
@@ -35,11 +38,10 @@ namespace PGS
 			CurrentState = newState;
             await CurrentState.Enter();
 
-            if (CurrentState is IControlInput)
+            if (CommonUtilities.IsConvertable<TStateType, IControlInput>(CurrentState, out input))
             {
-                IControlInput input = CurrentState as IControlInput;
-                input.EnableInputs();
-            }
+				input.EnableInputs();
+			}
         }
     }
 }

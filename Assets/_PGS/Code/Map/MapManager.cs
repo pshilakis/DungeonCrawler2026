@@ -14,10 +14,10 @@ namespace PGS
 
 		private Dictionary<Character, MapTile> m_OccupiedTiles = new Dictionary<Character, MapTile>();
 
-		private PlayboardState m_State;
+		private PlayGameState m_State;
 
 		#region Events
-		public static Func<MapManager, PlayboardState> OnManagerLoaded;
+		public static Func<MapManager, PlayGameState> OnManagerLoaded;
 		#endregion
 
 		private void Awake()

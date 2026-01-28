@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PGS.BootState
   requiredScenes: []
-  customIntro:
+  m_CustomIntro:
     _FadeDuration: 0.25
     _Speed: 1
     _Events:
@@ -54,7 +54,7 @@ MonoBehaviour:
       _Names: []
     _Clip: {fileID: 0}
     _NormalizedStartTime: NaN
-  customOutro:
+  m_CustomOutro:
     _FadeDuration: 0.25
     _Speed: 1
     _Events:
@@ -69,6 +69,52 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!1 &2331490650070680207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1455458686744004546}
+  - component: {fileID: 2374112288653966311}
+  m_Layer: 0
+  m_Name: New Game
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1455458686744004546
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2331490650070680207}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4067563037525013282}
+  - {fileID: 7118215013392753487}
+  m_Father: {fileID: 7052016705170541634}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2374112288653966311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2331490650070680207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd7a4c04f4778f34d90b1ddc05880e1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PGS.NewGameState
 --- !u!1 &4021689682304421458
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,7 +126,7 @@ GameObject:
   - component: {fileID: 3417452308134939885}
   - component: {fileID: 5148766932166354908}
   m_Layer: 0
-  m_Name: PlayGameState
+  m_Name: Play Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,6 +159,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10c101b339981bb4e87067b183ebab7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PGS.PlayGameState
+  m_CurrentMapData: {fileID: 0}
+  m_CurrentMapManager: {fileID: 0}
+--- !u!1 &4914620923994222306
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4067563037525013282}
+  m_Layer: 0
+  m_Name: Character Select
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4067563037525013282
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4914620923994222306}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1455458686744004546}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4941463654643874509
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7118215013392753487}
+  m_Layer: 0
+  m_Name: Set Player Turn Order
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7118215013392753487
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4941463654643874509}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1455458686744004546}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5431492710660293610
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PGS.LobbyState
   requiredScenes:
   - {fileID: 11400000, guid: 45883fe92df96d348be63bebc622aa90, type: 2}
-  customIntro:
+  m_CustomIntro:
     _FadeDuration: 0.25
     _Speed: 1
     _Events:
@@ -202,7 +312,7 @@ MonoBehaviour:
       _Names: []
     _Clip: {fileID: 0}
     _NormalizedStartTime: NaN
-  customOutro:
+  m_CustomOutro:
     _FadeDuration: 0.25
     _Speed: 1
     _Events:
@@ -268,6 +378,50 @@ MonoBehaviour:
     lobbyState: {fileID: 1805715506757055743}
     playboardState: {fileID: 7833482915468639718}
   m_ActiveGameID: 
+--- !u!1 &7256262497236973890
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7347409275757838564}
+  - component: {fileID: 2547416730443924805}
+  m_Layer: 0
+  m_Name: Continue Game
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7347409275757838564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7256262497236973890}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7052016705170541634}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2547416730443924805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7256262497236973890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cae4fee69de95f4eb8a2000de5bc102, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PGS.ContinueGameState
 --- !u!1 &7586220419154172527
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,7 +433,7 @@ GameObject:
   - component: {fileID: 7052016705170541634}
   - component: {fileID: 5838373963096594114}
   m_Layer: 0
-  m_Name: StartGameState
+  m_Name: Start Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -297,7 +451,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1455458686744004546}
+  - {fileID: 7347409275757838564}
   m_Father: {fileID: 8061132901468223586}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5838373963096594114
@@ -312,6 +468,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ca746cb771ccd744bcbb3a43c0d9d27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PGS.StartGameState
+  newGameState: {fileID: 2374112288653966311}
+  continueGameState: {fileID: 2547416730443924805}
 --- !u!1 &7881511485186516667
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,7 +518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PGS.PlayboardState
   requiredScenes:
   - {fileID: 11400000, guid: 6f223848836fef44fa8e4e9910830ea5, type: 2}
-  customIntro:
+  m_CustomIntro:
     _FadeDuration: 0.25
     _Speed: 1
     _Events:
@@ -369,7 +527,7 @@ MonoBehaviour:
       _Names: []
     _Clip: {fileID: 0}
     _NormalizedStartTime: NaN
-  customOutro:
+  m_CustomOutro:
     _FadeDuration: 0.25
     _Speed: 1
     _Events:
@@ -380,8 +538,7 @@ MonoBehaviour:
     _NormalizedStartTime: NaN
   startGameState: {fileID: 5838373963096594114}
   playGameState: {fileID: 5148766932166354908}
-  activeCharacters: []
-  m_CurrentMapManager: {fileID: 0}
+  m_CharacterPrefab: {fileID: 255029454372308822, guid: 138d5b8b1f8c824418a287ed70c05224, type: 3}
   references:
     version: 2
     RefIds: []
