@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a2b2e2a57dc6564592af3757e6e29c5, type: 3}
+  m_Name: Character Select and Player Setup Scene
+  m_EditorClassIdentifier: Assembly-CSharp::PGS.SceneData
+  m_SceneAsset: {fileID: 102900000, guid: 84fc24861c8d9954f834dca33035d40a, type: 3}
+  m_Description: 
+  m_SceneRef:
+    m_SceneName: CharacterSelectAndPlayerSetup
+    m_SceneGUID: 84fc24861c8d9954f834dca33035d40a
+    m_ScenePath: Assets/_PGS/Game/Scenes/PlayBoard/CharacterSelectAndPlayerSetup.unity
+    scene: {}
+    status: 0

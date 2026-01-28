@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using PGS.Utilities;
 using System;
 using UnityEngine;
 
@@ -12,10 +13,16 @@ namespace PGS
 	{
 		private PlayboardState m_Parent;
 
+		[Header("Character Select/Player Setup Scene")]
+		[Tooltip("In case we need to load new game elements, we can load them into this scene and then unload the scene to remove their references entirely. Maybe that's too complicated, idk.")]
+		[SerializeField] private SceneData newGameScene;
+
 		[Header("Substates")]
-		[SerializeField] private NewGameState newGameState;
-		[SerializeField] private ContinueGameState continueGameState;
-		private StateMachine<IState> m_Substates = new StateMachine<IState>();
+		[SerializeField] private CharacterSelectState m_CharacterSelect;
+		[SerializeField] private PlayerTurnSelectState m_PlayerTurnSelect;
+
+		[SerializeField] private StateMachine<IState> m_Substates = new StateMachine<IState>();
+
 
 		//Substates
 		//New Game
@@ -50,16 +57,27 @@ namespace PGS
 		#region IState
 		public async UniTask Enter()
 		{
-			OnGameReady?.Invoke();
+			await SceneUtilities.ShowLoadScreen(true);
+			await SceneUtilities.LoadSceneAdditive(newGameScene);
+			//If completely new game with no character data, load the CharacterSelectView
+			await m_Substates.SetState(m_CharacterSelect);
+			//else if we have character data (maybe we crashed after making them? or else we want to append characters?) load CharacterSelect from data
+			//else if we have everything we need, and we can set player turns
+			//await m_Substates.SetState(m_PlayerTurnSelect);
+			//else we're done and can load the next state
+
+			await SceneUtilities.HideLoadScreen(true);
 		}
 
 		public async UniTask Exit()
 		{
-			if (m_Substates.CurrentState != null)
+			await m_Substates.CurrentState.Exit();
+
+			if (newGameScene.IsLoaded())
 			{
-				await m_Substates.CurrentState.Exit();
+				await SceneUtilities.UnloadScene(newGameScene);
 			}
-			
+
 			gameObject.SetActive(false);
 		}
 		#endregion

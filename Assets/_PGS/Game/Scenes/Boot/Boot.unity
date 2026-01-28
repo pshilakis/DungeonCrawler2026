@@ -167,6 +167,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5838373963096594114, guid: 9c3d2824045e0f24283bb5ccf9774ec5, type: 3}
+      propertyPath: characterSelectPrefab
+      value: 
+      objectReference: {fileID: -3775024888692301716, guid: a43fbe2fb9ff1a04295739bf073142d9, type: 3}
+    - target: {fileID: 5838373963096594114, guid: 9c3d2824045e0f24283bb5ccf9774ec5, type: 3}
+      propertyPath: playerTurnSelectPrefab
+      value: 
+      objectReference: {fileID: -6288741790865797389, guid: aeaece086a43fa14caa6b1a5a7d1e137, type: 3}
+    - target: {fileID: 5838373963096594114, guid: 9c3d2824045e0f24283bb5ccf9774ec5, type: 3}
+      propertyPath: m_PlayerTurnSelect.m_ViewPrefab
+      value: 
+      objectReference: {fileID: -6288741790865797389, guid: aeaece086a43fa14caa6b1a5a7d1e137, type: 3}
     - target: {fileID: 5986077373240033860, guid: 9c3d2824045e0f24283bb5ccf9774ec5, type: 3}
       propertyPath: m_Name
       value: '[Game Manager]'

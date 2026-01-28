@@ -49,7 +49,7 @@ namespace PGS
 			tasks = new UniTask[scenes.Length];
 			for (int i = 0;	i < scenes.Length; i++)
 			{
-				if (scenes[i].CanBeLoaded())
+				if (scenes[i] != null && scenes[i].CanBeLoaded())
 				{
 					m_LoadedScenes.Add(scenes[i]);
 				}
@@ -60,6 +60,37 @@ namespace PGS
 
 			await UniTask.WhenAll(tasks);
 			OnAllScenesLoaded?.Invoke(DateTime.Now.TimeOfDay);
+		}
+
+		/// <summary>
+		/// Loads a single scene additively
+		/// </summary>
+		/// <param name="scene"></param>
+		/// <param name="ct"></param>
+		/// <returns></returns>
+		public static async UniTask LoadSceneAdditive(SceneData scene, bool setActive = true, CancellationToken ct = default)
+		{
+			if (scene == null)
+			{
+				Debug.LogError($"Trying to Load Scene Additively but the SceneData is null");
+				return;
+			}
+
+			if (scene.CanBeLoaded())
+			{
+				await scene.Load(LoadSceneMode.Additive, ct);
+
+				if (setActive)
+				{
+					Scene sc = SceneManager.GetSceneByName(scene.SceneName);
+					SceneManager.SetActiveScene(sc);
+				}
+			}
+		}
+
+		public static async UniTask UnloadScene(SceneData scene)
+		{
+			await scene.Unload();
 		}
 
 		public static async UniTask UnloadAllScenes(CancellationToken ct = default)
