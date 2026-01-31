@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using PGS.Utilities;
+using System;
 using UnityEngine;
 
 namespace PGS
@@ -8,17 +8,24 @@ namespace PGS
 	[System.Serializable]
 	public class CharacterSelectState : IState
 	{
-		[SerializeField] private CharacterSelectView m_ViewPrefab;
+		[SerializeField] private SceneData[] m_ScenesToLoad;
 		public CharacterSelectView View { get; private set; }
+
+		private CharacterSelectState ClaimOwner(GameView<CharacterSelectState> view)
+		{
+			View = view as CharacterSelectView;
+			return this;
+		}
 
 		public async UniTask Enter()
 		{
-			View = GameObject.Instantiate(m_ViewPrefab);
+			CharacterSelectView.RequestOwner += ClaimOwner;
+			await SceneUtilities.LoadScenes(m_ScenesToLoad);
 		}
 
 		public async UniTask Exit()
 		{
-
+			CharacterSelectView.RequestOwner -= ClaimOwner;
 		}
 	}
 }

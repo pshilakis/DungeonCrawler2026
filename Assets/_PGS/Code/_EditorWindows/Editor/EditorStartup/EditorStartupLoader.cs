@@ -32,10 +32,10 @@ namespace PGS.Editor
 		public static void GetCurrentOpenScenes()
 		{
 			int scenes = SceneManager.loadedSceneCount;
-			Scene activeScene = SceneManager.GetActiveScene(); //Store the active scene so we can reset to it later
+			Scene activeScene = EditorSceneManager.GetActiveScene(); //Store the active scene so we can reset to it later
 			for (int i = 0; i < scenes; i++)
 			{
-				Scene scene = SceneManager.GetSceneAt(i);
+				Scene scene = EditorSceneManager.GetSceneAt(i);
 				string scenePath = scene.path;
 				string sceneGUID = AssetDatabase.AssetPathToGUID(scenePath);
 				bool active = activeScene.name == scene.name;
@@ -54,7 +54,7 @@ namespace PGS.Editor
 
 				if (data.SavedSceneList[i].wasActiveScene)
 				{
-					SceneManager.SetActiveScene(scene);
+					EditorSceneManager.SetActiveScene(scene);
 				}
 			}
 

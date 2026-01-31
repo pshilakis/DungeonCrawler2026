@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a2b2e2a57dc6564592af3757e6e29c5, type: 3}
-  m_Name: Character Select and Player Setup Scene
+  m_Name: Character Select Scene
   m_EditorClassIdentifier: Assembly-CSharp::PGS.SceneData
   m_SceneAsset: {fileID: 102900000, guid: 84fc24861c8d9954f834dca33035d40a, type: 3}
   m_Description: 

@@ -6,17 +6,24 @@ namespace PGS
 	[System.Serializable]
 	public class PlayerTurnSelectState : IState
 	{
-		[SerializeField] private PlayerTurnSelectView m_ViewPrefab;
+		[SerializeField] private SceneData[] m_ScenesToLoad;
+
 		public PlayerTurnSelectView View { get; private set; }
 
+		private PlayerTurnSelectState ClaimOwner(GameView<PlayerTurnSelectState> view)
+		{
+			View = view as PlayerTurnSelectView;
+			return this;
+		}
 		public async UniTask Enter()
 		{
-			View = GameObject.Instantiate(m_ViewPrefab);
+			PlayerTurnSelectView.RequestOwner += ClaimOwner;
+			await SceneUtilities.LoadScenes(m_ScenesToLoad);
 		}
 
 		public async UniTask Exit()
 		{
-
+			PlayerTurnSelectView.RequestOwner -= ClaimOwner;
 		}
 	}
 }

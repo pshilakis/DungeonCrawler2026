@@ -9,7 +9,7 @@ namespace PGS
 
 		protected async override void Awake()
 		{
-			mainView.RegisterManager(this);
+			//mainView.RegisterManager(this);
 			base.Awake();
 		}
 	}

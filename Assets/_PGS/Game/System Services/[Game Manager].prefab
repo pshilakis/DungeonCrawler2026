@@ -213,7 +213,6 @@ MonoBehaviour:
       _Names: []
     _Clip: {fileID: 0}
     _NormalizedStartTime: NaN
-  m_ViewManager: {fileID: 0}
   references:
     version: 2
     RefIds: []
@@ -314,11 +313,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ca746cb771ccd744bcbb3a43c0d9d27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PGS.StartGameState
-  newGameScene: {fileID: 11400000, guid: 4be934aed7b90b24081612127a067168, type: 2}
   m_CharacterSelect:
-    m_ViewPrefab: {fileID: -3775024888692301716, guid: a43fbe2fb9ff1a04295739bf073142d9, type: 3}
+    m_ScenesToLoad:
+    - {fileID: 11400000, guid: 4be934aed7b90b24081612127a067168, type: 2}
   m_PlayerTurnSelect:
-    m_ViewPrefab: {fileID: 0}
+    m_ScenesToLoad:
+    - {fileID: 11400000, guid: 666b2b397cdecda4b897da4cdf63683c, type: 2}
 --- !u!1 &7881511485186516667
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,9 +13,9 @@ namespace PGS
 	{
 		private PlayboardState m_Parent;
 
-		[Header("Character Select/Player Setup Scene")]
-		[Tooltip("In case we need to load new game elements, we can load them into this scene and then unload the scene to remove their references entirely. Maybe that's too complicated, idk.")]
-		[SerializeField] private SceneData newGameScene;
+		//[Header("Character Select/Player Setup Scene")]
+		//[Tooltip("In case we need to load new game elements, we can load them into this scene and then unload the scene to remove their references entirely. Maybe that's too complicated, idk.")]
+		//[SerializeField] private SceneData newGameScene;
 
 		[Header("Substates")]
 		[SerializeField] private CharacterSelectState m_CharacterSelect;
@@ -35,6 +35,7 @@ namespace PGS
 
 		#region Events
 		public Func<PlayboardState> OnParentStateRequest;
+		//Event to request current game data
 
 		/// <summary>
 		/// Event for when the game has fully started and we're ready to move to the Play game state
@@ -57,39 +58,47 @@ namespace PGS
 		#region IState
 		public async UniTask Enter()
 		{
-			await SceneUtilities.ShowLoadScreen(true);
-			await SceneUtilities.LoadSceneAdditive(newGameScene);
-			//If completely new game with no character data, load the CharacterSelectView
-			await m_Substates.SetState(m_CharacterSelect);
-			//else if we have character data (maybe we crashed after making them? or else we want to append characters?) load CharacterSelect from data
-			//else if we have everything we need, and we can set player turns
-			//await m_Substates.SetState(m_PlayerTurnSelect);
-			//else we're done and can load the next state
-
-			await SceneUtilities.HideLoadScreen(true);
+			await ChooseInitialSubstate();
 		}
 
 		public async UniTask Exit()
 		{
 			await m_Substates.CurrentState.Exit();
-
-			if (newGameScene.IsLoaded())
-			{
-				await SceneUtilities.UnloadScene(newGameScene);
-			}
-
 			gameObject.SetActive(false);
 		}
 		#endregion
 
+		private async UniTask ChooseInitialSubstate()
+		{
+			//SUBSTATE SELECT LOGIC:
+			//If completely new game with no character data, load the CharacterSelectView
+			await LoadCharacterSelect();
+			//else if we have character data (maybe we crashed after making them? or else we want to append characters?) load CharacterSelect from data
+			//else if we have everything we need, and we can set player turns
+			//await LoadTurnSelect();
+			//else we're done and can load the next state
+		}
+
+		public async UniTask LoadCharacterSelect()
+		{
+			await SceneUtilities.ShowLoadScreen(true);
+			await m_Substates.SetState(m_CharacterSelect);
+			m_CharacterSelect.View.PlayButton.OnPress += UniTask.Action(async () => { LoadTurnSelect(); });
+			await SceneUtilities.HideLoadScreen(true);
+		}
+
+		public async UniTask LoadTurnSelect()
+		{
+			await SceneUtilities.ShowLoadScreen(true);
+			await m_Substates.SetState(m_PlayerTurnSelect);
+			await SceneUtilities.HideLoadScreen(true);
+		}
+
+		#region Unity Lifecycle
 		private void Awake()
 		{
 			m_Parent = OnParentStateRequest?.Invoke();
 		}
-
-		public void SetParentState(PlayboardState parent)
-		{
-			m_Parent = parent;
-		}
+		#endregion
 	}
 }

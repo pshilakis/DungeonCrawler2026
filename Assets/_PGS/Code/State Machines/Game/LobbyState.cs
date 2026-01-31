@@ -9,7 +9,8 @@ namespace PGS
 	[System.Serializable]
 	public class LobbyState : GameState, IState, IControlInput, IRequireLoadScreen
 	{
-		[ReadOnly][SerializeField] private LobbyViewManager m_ViewManager;
+		//[ReadOnly][SerializeField] private LobbyViewManager m_ViewManager;
+		private LobbyMainView m_View;
 
 		public static Action<MapData> OnNewGameButtonPressed; //Passes the desired MapData when triggered
 		public static Action OnContinueButtonPressed;
@@ -20,16 +21,34 @@ namespace PGS
 		public ClipTransition CustomOutro { get { return m_CustomOutro; } }
 		#endregion
 
+		#region Unity Lifecycle
+		private void Awake()
+		{
+			LobbyMainView.RequestOwner += ClaimOwner;
+		}
+
+		private void OnDestroy()
+		{
+			LobbyMainView.RequestOwner -= ClaimOwner;
+		}
+		#endregion
+
+		private LobbyState ClaimOwner(GameView<LobbyState> view)
+		{
+			m_View = view as LobbyMainView;
+			return this;
+		}
+
 		#region IState
 		public override async UniTask Enter()
 		{
-			LobbyViewManager.OnInitialize += RegisterManagerToState;
+			//LobbyViewManager.OnInitialize += RegisterManagerToState;
 			await SceneUtilities.LoadScenes(requiredScenes);
 		}
 
 		public override async UniTask Exit()
 		{
-			LobbyViewManager.OnInitialize -= RegisterManagerToState;
+			//LobbyViewManager.OnInitialize -= RegisterManagerToState;
 			gameObject.SetActive(false);
 		}
 		#endregion
@@ -38,7 +57,7 @@ namespace PGS
 		{
 			if (manager is LobbyViewManager)
 			{
-				m_ViewManager = manager as LobbyViewManager;
+				//m_ViewManager = manager as LobbyViewManager;
 			}
 		}
 

@@ -1,9 +1,10 @@
 using UnityEngine;
 using PGS.UI;
+using System;
 
 namespace PGS
 {
-    public class LobbyMainView : GameView
+    public class LobbyMainView : GameView<LobbyState>
     {
 		[SerializeField] private GameSelectButtonOption newGameButton;
         //[SerializeField] private ButtonHandler newGameButton;
