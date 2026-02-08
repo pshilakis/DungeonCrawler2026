@@ -19,6 +19,7 @@ namespace PGS
 		[SerializeField] private EventSystem eventSystemPrefab;
 
 		public static Action<InputRelay> OnInputRelayInitialized;
+		public static Action<CharacterManager> OnCharacterManagerLocated;
 
 		#region IState
 		public override async UniTask Enter()
@@ -29,12 +30,14 @@ namespace PGS
 			SetInputRelay(CommonUtilities.AddComponentToNewGameObject<InputRelay>(GameManager.Instance.transform, nameof(InputRelay))); //Setup Input
 			InstantiateSystemPrefab(cameraPrefab);
 			InstantiateSystemPrefab(eventSystemPrefab); //Setup EventSystem for UI Input
+			GetCharacterManager();
 		}
 
 		public override async UniTask Exit()
 		{
 			this.gameObject.SetActive(false);
 		}
+
 		#endregion
 
 		private void InstantiateSystemPrefab(Component component)
@@ -48,6 +51,12 @@ namespace PGS
 		{
 			relay.InitializeInput();
 			OnInputRelayInitialized?.Invoke(relay);
+		}
+
+		public void GetCharacterManager()
+		{
+			CharacterManager manager = GameObject.FindFirstObjectByType<CharacterManager>();
+			OnCharacterManagerLocated?.Invoke(manager);
 		}
 	}
 }

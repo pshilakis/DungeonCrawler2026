@@ -79,7 +79,7 @@ namespace PGS
 			//else we're done and can load the next state
 		}
 
-		public async UniTask LoadCharacterSelect()
+		private async UniTask LoadCharacterSelect()
 		{
 			await SceneUtilities.ShowLoadScreen(true);
 			await m_Substates.SetState(m_CharacterSelect);
@@ -87,10 +87,11 @@ namespace PGS
 			await SceneUtilities.HideLoadScreen(true);
 		}
 
-		public async UniTask LoadTurnSelect()
+		private async UniTask LoadTurnSelect()
 		{
 			await SceneUtilities.ShowLoadScreen(true);
 			await m_Substates.SetState(m_PlayerTurnSelect);
+			//subscribe to play button to send to parent and begin gameplay
 			await SceneUtilities.HideLoadScreen(true);
 		}
 

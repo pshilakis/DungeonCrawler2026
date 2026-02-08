@@ -15,8 +15,11 @@ EditorBuildSettings:
     path: Assets/_PGS/Game/Scenes/PlayBoard/Playboard.unity
     guid: eea28af0948cc084b9a5b17850e6bae2
   - enabled: 1
-    path: Assets/_PGS/Game/Scenes/PlayBoard/Substates/Character Select.unity
+    path: Assets/_PGS/Game/Scenes/PlayBoard/Substates/Character Creation.unity
     guid: 84fc24861c8d9954f834dca33035d40a
+  - enabled: 1
+    path: Assets/_PGS/Game/Scenes/PlayBoard/Substates/Turn Select.unity
+    guid: f0c8166bdaa09844a8f885dfbb861988
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

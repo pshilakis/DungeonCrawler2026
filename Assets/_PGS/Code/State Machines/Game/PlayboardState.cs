@@ -13,9 +13,6 @@ namespace PGS
 		[SerializeField] private PlayGameState playGameState;
 		private StateMachine<IState> m_Substates = new StateMachine<IState>();
 
-		[Header("Player Character References")]
-		[SerializeField] private Character m_CharacterPrefab;
-
 		#region IControlInput
 		public void EnableInputs()
 		{

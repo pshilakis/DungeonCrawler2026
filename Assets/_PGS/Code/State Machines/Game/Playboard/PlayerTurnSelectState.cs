@@ -19,6 +19,8 @@ namespace PGS
 		{
 			PlayerTurnSelectView.RequestOwner += ClaimOwner;
 			await SceneUtilities.LoadScenes(m_ScenesToLoad);
+			await View.SetPlayerTurnCards(GameManager.Instance.Characters.CharacterDataList); //instantiate the player cards in the view
+
 		}
 
 		public async UniTask Exit()

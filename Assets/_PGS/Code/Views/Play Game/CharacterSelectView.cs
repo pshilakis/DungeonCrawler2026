@@ -15,7 +15,8 @@ namespace PGS
 		public ButtonHandler PlayButton {  get { return btnPlay; } }
 
 		[SerializeField] private TextMeshProUGUI totalCharacterCountText;
-		private List<Character> totalCharacters = new List<Character>();
+
+		public static Action<CharacterData> OnNewCharacterCreated;
 
 		protected override void OnEnable()
 		{
@@ -29,9 +30,10 @@ namespace PGS
 
 		private void AddCharacter()
 		{
-			totalCharacters.Add(new Character(characterNameField.text));
-			totalCharacterCountText.text = $"Total Characters: {totalCharacters.Count.ToString()}";
-			characterNameField.text = string.Empty;
+			OnNewCharacterCreated?.Invoke(new CharacterData(characterNameField.text));
+
+			totalCharacterCountText.text = $"Total Characters: {GameManager.Instance.Characters.Count}";
+			characterNameField.text = string.Empty; //reset the field text to empty
 		}
 	}
 }

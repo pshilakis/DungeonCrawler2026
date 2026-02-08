@@ -6,14 +6,9 @@ namespace PGS
 {
     public class Character : MapEntity
     {
-		private string m_CharacterName;
-		public string CharacterName { get { return  m_CharacterName; } }
+		[SerializeField] private CharacterData data;
 
-		public Character(string characterName)
-		{
-			this.m_CharacterName = characterName;
-		}
-
+		public string CharacterName { get { return data.Name; }  }
 		/// <summary>
 		/// How fast the character moves from tile to tile
 		/// </summary>
@@ -40,9 +35,10 @@ namespace PGS
 			MapTile.OnTileUpdated -= UpdateCurrentTile;
 		}
 
-		public void Init(string playerName)
+		public void Init(CharacterData data)
 		{
-			m_CharacterName = playerName;
+			this.data = data;
+			//set whatever info we need based on the data we've loaded
 		}
 
 		private void UpdateCurrentTile(MapTile tile, Character character)

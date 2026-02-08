@@ -1,5 +1,3 @@
-using PGS.Utilities;
-using System;
 using UnityEngine;
 
 namespace PGS
@@ -9,12 +7,11 @@ namespace PGS
 		[ColoredHeader("Directory References", "#cc00ff", 14, true)]
 		[SerializeField] private MapDirectory m_MapDirectory;
 		public InputRelay InputRelay { get; private set; }
-		
-		[ColoredHeader("Character Prefab References", "#00ccff", 14, true)]
-		[SerializeField] private Character characterPrefab;
 
 		[ColoredHeader("Game State Machine (GSM)", "#ffff55", 14, true)]
 		[SerializeField] private GameStateMachine m_StateMachine;
+
+		public CharacterManager Characters { get; private set; }
 
 		[SerializeField] private string m_ActiveGameID;
 
@@ -22,8 +19,10 @@ namespace PGS
 		{
 			base.Awake();
 			BootState.OnInputRelayInitialized += GetInputRelay;
-			await m_MapDirectory.BuildDirectory();
-			await m_StateMachine.Initialize();
+			BootState.OnCharacterManagerLocated += GetCharacterManager;
+			m_MapDirectory.BuildDirectory();
+			m_StateMachine.Initialize();
+
 		}
 
 		private void GetInputRelay(InputRelay relay)
@@ -32,11 +31,10 @@ namespace PGS
 			BootState.OnInputRelayInitialized -= GetInputRelay;
 		}
 
-		public void SetCurrentMap(MapData mapData)
+		private void GetCharacterManager(CharacterManager charManager)
 		{
-			if (mapData == null) { return; }
-			//if (m_CurrentMap.Data.ID == mapData.ID) { return; } //We already have loaded this map
-			//m_CurrentMap = mapData.InstantiateMap();
+			Characters = charManager;
+			BootState.OnCharacterManagerLocated -= GetCharacterManager;
 		}
     }
 }

@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using MEC;
-using Cysharp.Threading.Tasks;
 
 namespace PGS.UI
 {
