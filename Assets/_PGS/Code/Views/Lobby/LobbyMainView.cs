@@ -1,6 +1,6 @@
 using UnityEngine;
 using PGS.UI;
-using System;
+using PGS.Utilities;
 
 namespace PGS
 {
@@ -33,7 +33,5 @@ namespace PGS
 		{
 			LobbyState.OnContinueButtonPressed?.Invoke();
 		}
-
-
 	}
 }

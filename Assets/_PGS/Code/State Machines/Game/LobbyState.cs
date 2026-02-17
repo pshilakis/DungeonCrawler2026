@@ -1,5 +1,6 @@
 using Animancer;
 using Cysharp.Threading.Tasks;
+using PGS.Utilities;
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -9,7 +10,6 @@ namespace PGS
 	[System.Serializable]
 	public class LobbyState : GameState, IState, IControlInput, IRequireLoadScreen
 	{
-		//[ReadOnly][SerializeField] private LobbyViewManager m_ViewManager;
 		private LobbyMainView m_View;
 
 		public static Action<MapData> OnNewGameButtonPressed; //Passes the desired MapData when triggered
@@ -44,6 +44,14 @@ namespace PGS
 		{
 			//LobbyViewManager.OnInitialize += RegisterManagerToState;
 			await SceneUtilities.LoadScenes(requiredScenes);
+
+			//instantiate the buttons for new game and any saved games
+			string[] savedGames = RuntimeSaveUtilities.GetListOfSavedGameIDs();
+
+			foreach (string gameID in savedGames)
+			{
+				Debug.Log(gameID);
+			}
 		}
 
 		public override async UniTask Exit()
@@ -52,14 +60,6 @@ namespace PGS
 			gameObject.SetActive(false);
 		}
 		#endregion
-
-		private void RegisterManagerToState(GameViewManager manager)
-		{
-			if (manager is LobbyViewManager)
-			{
-				//m_ViewManager = manager as LobbyViewManager;
-			}
-		}
 
 		#region IControlInput
 		public void EnableInputs()

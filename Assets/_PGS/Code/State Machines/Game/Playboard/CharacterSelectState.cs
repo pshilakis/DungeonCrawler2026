@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using PGS.Utilities;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,6 +28,7 @@ namespace PGS
 		public async UniTask Exit()
 		{
 			CharacterSelectView.RequestOwner -= ClaimOwner;
+			RuntimeSaveUtilities.SaveCharacters(GameManager.Instance.GameID, GameManager.Instance.Characters.CharacterDataList, true);
 		}
 	}
 }
