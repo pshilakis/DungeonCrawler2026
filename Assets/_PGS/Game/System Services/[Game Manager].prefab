@@ -294,6 +294,7 @@ Transform:
   m_Children:
   - {fileID: 1386644840599167506}
   - {fileID: 7591741218078823179}
+  - {fileID: 475398108737543430}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1141566109363183624
@@ -314,7 +315,6 @@ MonoBehaviour:
     bootState: {fileID: 4974477041198935796}
     lobbyState: {fileID: 1805715506757055743}
     playboardState: {fileID: 7833482915468639718}
-  m_CharacterManager: {fileID: 0}
   m_ActiveGameID: 
 --- !u!1 &7586220419154172527
 GameObject:
@@ -437,3 +437,47 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!1 &8726492445169435981
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 475398108737543430}
+  - component: {fileID: 779928673027866308}
+  m_Layer: 0
+  m_Name: UI Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &475398108737543430
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8726492445169435981}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 518455199439636299}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &779928673027866308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8726492445169435981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9176f87ee57c3c24785b8ada4b36304e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PGS.UIManager
