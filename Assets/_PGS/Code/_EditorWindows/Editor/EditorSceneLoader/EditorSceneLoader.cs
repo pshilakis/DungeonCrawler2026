@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor.SceneManagement;
-using UnityEditor;
 using System.Linq;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 //https://www.youtube.com/watch?v=yqneLnM8syk&ab_channel=WarpedImagination | For making custom scene view overlays cuz that's the cool way to display this
@@ -17,33 +18,42 @@ public class EditorSceneLoader : PGSEditorWindowUGUI<EditorSceneLoader>
 		"Assets/_PGS/Game"
 	};
 
-	private List<EditorObjectReference> FoundScenes = new List<EditorObjectReference>();
+	// Use GUID string as dictionary key (stable) and keep a separate ordered list for GUI iteration
+	private Dictionary<string, EditorBuildSettingsScene> BuildSettingSceneDictionary = new Dictionary<string, EditorBuildSettingsScene>();
+	private List<EditorObjectReference> SceneList = new List<EditorObjectReference>();
+
 
     private void OnEnable()
     {
-        GetSceneAssetsInDirectory(); //update the scenes dictionary
-        EditorApplication.projectChanged += GetSceneAssetsInDirectory;
+        GetSceneAssetsInDirectoryAndBuildSettings(); //update the scenes dictionary
+        EditorApplication.projectChanged += GetSceneAssetsInDirectoryAndBuildSettings;
+		EditorBuildSettings.sceneListChanged += Repaint;
 		EditorSceneManager.sceneOpened += Repaint;
 		EditorSceneManager.sceneClosed += Repaint;
     }
 
 	private void OnDisable()
     {
-		EditorApplication.projectChanged -= GetSceneAssetsInDirectory;
+		EditorApplication.projectChanged -= GetSceneAssetsInDirectoryAndBuildSettings;
+		EditorBuildSettings.sceneListChanged -= Repaint;
 		EditorSceneManager.sceneOpened -= Repaint;
 		EditorSceneManager.sceneClosed -= Repaint;
 	}
 
     protected override void OnGUI()
     {
-		foreach(EditorObjectReference entry in FoundScenes)
+		foreach (EditorObjectReference entry in SceneList.ToList())//Iterate a copy of the scene list so rebuilding the dictionary won't break enumeration
 		{
 			if (Application.isPlaying)
 			{
 				GUI.enabled = false;
 			}
 
+			// snapshot current build scene if present
+			BuildSettingSceneDictionary.TryGetValue(entry.GUID, out EditorBuildSettingsScene currentBuildScene);
+
 			EditorGUILayout.BeginHorizontal();
+			DrawBuildSettingButton(entry, currentBuildScene);
 			DrawSceneAssetField(entry.Asset);
 			DrawSceneOpenButton(entry.Asset);
 			DrawSceneAddButton(entry.Asset);
@@ -63,23 +73,141 @@ public class EditorSceneLoader : PGSEditorWindowUGUI<EditorSceneLoader>
 		Repaint();
 	}
 
-	private void GetSceneAssetsInDirectory()
+	private void GetSceneAssetsInDirectoryAndBuildSettings()
 	{
-		FoundScenes.Clear();
+		if (BuildSettingSceneDictionary.Count > 0) { BuildSettingSceneDictionary.Clear(); }
+		if (SceneList.Count > 0) { SceneList.Clear(); }
 
-		string[] guids = AssetDatabase.FindAssets($"t:{typeof(SceneAsset).Name}", m_SearchDirectory); //Need the typeof(T).Name here otherwise typeof(SceneAsset) returns "UnityEditor.SceneAsset" which does not work with the filter; we need to remove the namespace
+		//Get all scenes in the directory we want to search
+		HashSet<string> guids = AssetDatabase.FindAssets($"t:{typeof(SceneAsset).Name}", m_SearchDirectory).ToHashSet(); //Need the typeof(T).Name here otherwise typeof(SceneAsset) returns "UnityEditor.SceneAsset" which does not work with the filter; we need to remove the namespace
 
-		foreach (string guid in guids)
+		//Get all scenes in buildSettings (in case any are outside of the search directory)
+		EditorBuildSettingsScene[] scenesInBuild = EditorBuildSettings.scenes;
+		foreach (EditorBuildSettingsScene scene in scenesInBuild)
 		{
-			FoundScenes.Add(new EditorObjectReference(guid));
+			guids.Add(scene.guid.ToString());
 		}
 
-		FoundScenes = FoundScenes.OrderBy(x => x.Asset.name).ToList(); //Sort the list
+		List<EditorObjectReference> scenesInProject = new List<EditorObjectReference>();
+		foreach (string guid in guids)
+		{
+			scenesInProject.Add(new EditorObjectReference(guid));
+		}
 
-		Debug.Log($"{FoundScenes.Count} SceneAssets Found in Directory \"{m_SearchDirectory[0]}\"");
+		scenesInProject = scenesInProject.OrderBy(x => x.Asset.name).ToList(); //Sort the list
+
+		for (int i = 0; i < scenesInProject.Count; i++)// populate SceneList and dictionary keyed by GUID string
+		{
+			EditorObjectReference objRef = scenesInProject[i];
+			SceneList.Add(objRef);
+
+			EditorBuildSettingsScene buildSettingScene = GetBuildSettingSceneFromGUID(objRef.GUID);
+			BuildSettingSceneDictionary[objRef.GUID] = buildSettingScene;
+		}
+
+		//Debug.Log($"{BuildSettingSceneDictionary.Count} SceneAssets Found in Directory \"{m_SearchDirectory[0]}\" & BuildSettings");
 	}
 
-	private void DrawSceneAssetField(Object obj)
+	/// <summary>
+	/// Search the BuildProfiles Scene List and return the EditorBuildSettingsScene if it exists, or null if it does not
+	/// </summary>
+	/// <param name="guid">The GUID of the asset we want to find</param>
+	/// <returns></returns>
+	private EditorBuildSettingsScene GetBuildSettingSceneFromGUID(string guid)
+	{
+		for (int i = 0; i < EditorBuildSettings.scenes.Length; i++)
+		{
+			if (EditorBuildSettings.scenes[i].guid.ToString() == guid)
+			{
+				return EditorBuildSettings.scenes[i];
+			}
+		}
+
+		return null;
+	}
+
+	private void DrawBuildSettingButton(EditorObjectReference obj, EditorBuildSettingsScene currentBuildScene)
+	{
+		float buttonHeight = EditorGUIUtility.singleLineHeight + 2f;
+		const float buttonWidth = 150f;
+
+		const string iconInBuild = "SceneAsset Icon";
+		const string tooltipInBuild = "This Scene is included in BuildSettings";
+
+		const string iconNotInBuild = "SceneAsset On Icon";
+		const string tooltipNotInBuild = "Click to add this Scene to BuildSettings";
+
+		GUIContent notInBuildContent = new GUIContent();
+		notInBuildContent.image = EditorGUIUtility.IconContent(iconNotInBuild).image;
+		notInBuildContent.text = "Not In Build";
+		notInBuildContent.tooltip = tooltipNotInBuild;
+
+		GUIContent enabledContent = new GUIContent();
+		enabledContent.image = EditorGUIUtility.IconContent(iconInBuild).image;
+		enabledContent.text = "In Build [Enabled]";
+		enabledContent.tooltip = tooltipInBuild;
+
+		GUIContent disabledContent = new GUIContent();
+		disabledContent.image = EditorGUIUtility.IconContent(iconInBuild).image;
+		disabledContent.text = "In Build [Disabled]";
+		disabledContent.tooltip = tooltipInBuild;
+
+		GUIContent[] dropdownButtons = {
+			notInBuildContent,	//0
+			enabledContent,		//1
+			disabledContent		//2
+		};
+
+		int index = currentBuildScene != null ? (currentBuildScene.enabled ? 1 : 2) : 0; // Use snapshot currentBuildScene (no dictionary key lookup that can fail due to reconstructed references)
+
+		EditorGUI.BeginChangeCheck();
+		index = EditorGUILayout.Popup(index, dropdownButtons, GUILayout.Width(buttonWidth));
+
+		if (EditorGUI.EndChangeCheck())
+		{
+			List<EditorBuildSettingsScene> scenes = EditorBuildSettings.scenes.ToList();
+			EditorBuildSettingsScene existingEBSScene = scenes.Find(x => x.guid.ToString() == obj.GUID || x.path == obj.Path);//Find existing scene entry by GUID/path (stable identity)
+
+			switch (index)
+			{
+				case 0: //Remove the item from BuildProfiles
+					for (int i = scenes.Count - 1; i >= 0; i--)
+					{
+						if (scenes[i].guid.ToString() == obj.GUID || scenes[i].path == obj.Path)
+						{
+							scenes.RemoveAt(i);
+						}
+					}
+					break;
+				case 1: //Enable the scene in BuildProfiles
+					if (existingEBSScene == null)
+					{
+						scenes.Add(new EditorBuildSettingsScene(obj.Path, true));
+					}
+					else
+					{
+						existingEBSScene.enabled = true;
+					}
+					break;
+				case 2: //Disabled the scene in BuildProfiles
+					if (existingEBSScene == null)
+					{
+						scenes.Add(new EditorBuildSettingsScene(obj.Path, false));
+					}
+					else
+					{
+						existingEBSScene.enabled = false;
+					}
+					break;
+			}
+
+			EditorBuildSettings.scenes = scenes.ToArray();
+
+			GetSceneAssetsInDirectoryAndBuildSettings(); //Rebuild backing list/dictionary after we've updated build settings
+		}
+	}
+
+	private void DrawSceneAssetField(UnityEngine.Object obj)
 	{
 		GUI.enabled = false;
 		EditorGUILayout.ObjectField(obj, typeof(SceneAsset), false);
@@ -90,7 +218,7 @@ public class EditorSceneLoader : PGSEditorWindowUGUI<EditorSceneLoader>
 	/// Button to Open a new scene file
 	/// </summary>
 	/// <param name="obj"></param>
-	private void DrawSceneOpenButton(Object obj)
+	private void DrawSceneOpenButton(UnityEngine.Object obj)
 	{
 		float buttonHeight = EditorGUIUtility.singleLineHeight + 2f;
 		const float buttonWidth = 32f;
@@ -99,7 +227,7 @@ public class EditorSceneLoader : PGSEditorWindowUGUI<EditorSceneLoader>
 		string icon = isOpen ? "P4_CheckOutRemote@2x" :  "P4_CheckOutLocal@2x";
 
 		GUI.enabled = !isOpen && !Application.isPlaying;
-		GUIContent content = EditorGUIUtility.IconContent(icon, "Load this Scene (Closes all currently opened scenes)"); ;
+		GUIContent content = EditorGUIUtility.IconContent(icon, "Load this Scene (Closes all currently opened scenes)");
 		GUIStyle style = EditorStyles.toolbarButton;
 		if (GUILayout.Button(content, style, GUILayout.Height(buttonHeight), GUILayout.Width(buttonWidth)))
 		{
@@ -116,7 +244,7 @@ public class EditorSceneLoader : PGSEditorWindowUGUI<EditorSceneLoader>
 	/// Button to Add a scene to the current view
 	/// </summary>
 	/// <param name="obj"></param>
-	private void DrawSceneAddButton(Object obj)
+	private void DrawSceneAddButton(UnityEngine.Object obj)
 	{
 		float buttonHeight = EditorGUIUtility.singleLineHeight + 2f;
 		const float buttonWidth = 32f;
