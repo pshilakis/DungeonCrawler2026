@@ -4,24 +4,41 @@ using UnityEngine;
 
 namespace PGS
 {
+	/// <summary>
+	/// UIManager keeps track of all open windows for sequential stacking and closing.
+	/// GameViews and GameStates should register to their own UI/controls and send those dialogs here for tracking
+	/// </summary>
     public class UIManager : MonoBehaviour
     {
+		private Dictionary<string, UIWindow> m_WindowRegistry = new Dictionary<string, UIWindow>();
         [SerializeField] private Stack<UIWindow> m_ActiveWindows = new Stack<UIWindow>();
 
-        private void Awake()
+		private void Awake()
         {
-			UIWindow.OnUIManagerRequest += RegisterWindow;
-			UIWindow.OnWindowRequestHide += CloseDialog;
+			UIWindow.RegisterWindow += RegisterWindow;
+			UIWindow.UnregisterWindow += UnregisterWindow;
 		}
 
-		private UIManager RegisterWindow(UIWindow window)
+		/// <summary>
+		/// Registers a window to the UIManager and returns a unique ID for that window. This ID can be used for tracking and management purposes.
+		/// </summary>
+		/// <param name="window"></param>
+		/// <returns></returns>
+		private string RegisterWindow(UIWindow window)
 		{
-			return this;
+			string id = GenerateUniqueID();
+			m_WindowRegistry.Add(id, window);
+			return id;
 		}
 
-		private void CloseDialog(UIWindow window)
+		private string GenerateUniqueID()
 		{
-			
+			return Guid.NewGuid().ToString();
+		}
+
+		private void UnregisterWindow(string id)
+		{
+			m_WindowRegistry.Remove(id);
 		}
 	}
 }

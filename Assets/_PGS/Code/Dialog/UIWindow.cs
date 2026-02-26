@@ -33,17 +33,18 @@ namespace PGS
 
         private bool m_Registered = false;
 
-        private UIManager m_UIManager;
+        public string WindowID { get; private set; }
 
         /// <summary>
         /// Event that's fired when this window wants to spawn; registers itself to and returns the reference of a UIManager for control later
         /// </summary>
-        public static Func<UIWindow, UIManager> OnUIManagerRequest;
-        public static Action<UIWindow> OnWindowRequestHide;
+        public static Func<UIWindow, string> RegisterWindow;
+        public static Action<string> UnregisterWindow;
+        public static Action<string> OnWindowRequestClose;
 
         protected virtual void Start()
         {
-			m_UIManager = OnUIManagerRequest?.Invoke(this);
+			WindowID = RegisterWindow?.Invoke(this);
 		}
 
 		protected virtual void OnEnable()
@@ -56,7 +57,14 @@ namespace PGS
             UnregisterCloseButton();
 		}
 
-        private void RegisterCloseButton()
+        protected virtual void OnDestroy()
+        {
+            if (WindowID == null) { return; }
+			UnregisterWindow?.Invoke(WindowID);
+		}
+
+
+		private void RegisterCloseButton()
         {
 			if (closeButton != null)
 			{
@@ -89,7 +97,7 @@ namespace PGS
 
         public async UniTaskVoid Hide()
         {
-			OnWindowRequestHide?.Invoke(this);
+			OnWindowRequestClose?.Invoke(this);
             //Play any outro animations
 		}
 	}
