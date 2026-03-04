@@ -13,7 +13,7 @@ namespace PGS
 		[SerializeField] private SceneData[] m_ScenesToLoad;
 		public CharacterSelectView View { get; private set; }
 
-		private CharacterSelectState ClaimOwner(GameView<CharacterSelectState> view)
+		private CharacterSelectState ClaimOwner(SceneState<CharacterSelectState> view)
 		{
 			View = view as CharacterSelectView;
 			return this;

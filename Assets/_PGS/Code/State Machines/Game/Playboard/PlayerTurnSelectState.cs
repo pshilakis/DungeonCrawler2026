@@ -10,7 +10,7 @@ namespace PGS
 
 		public PlayerTurnSelectView View { get; private set; }
 
-		private PlayerTurnSelectState ClaimOwner(GameView<PlayerTurnSelectState> view)
+		private PlayerTurnSelectState ClaimOwner(SceneState<PlayerTurnSelectState> view)
 		{
 			View = view as PlayerTurnSelectView;
 			return this;

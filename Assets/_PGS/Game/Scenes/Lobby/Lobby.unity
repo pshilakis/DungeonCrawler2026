@@ -306,6 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726f7760504f46e4fb6d25038187d818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PGS.TestDialog
+  openMode: 0
   introAnimation:
     _FadeDuration: 0.25
     _Speed: 1
@@ -315,9 +316,6 @@ MonoBehaviour:
       _Names: []
     _Clip: {fileID: 0}
     _NormalizedStartTime: NaN
-  openMode: 0
-  closeButton: {fileID: 646563726}
-  closeMode: 0
   outroAnimation:
     _FadeDuration: 0.25
     _Speed: 1
@@ -409,9 +407,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 211145028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 726f7760504f46e4fb6d25038187d818, type: 3}
+  m_Script: {fileID: 11500000, guid: eebf8dd8fe0dde14f9deb1d1ea5d4b8a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PGS.TestDialog
+  m_EditorClassIdentifier: Assembly-CSharp::PGS.UIDialog
+  openMode: 0
   introAnimation:
     _FadeDuration: 0.25
     _Speed: 1
@@ -421,9 +420,6 @@ MonoBehaviour:
       _Names: []
     _Clip: {fileID: 0}
     _NormalizedStartTime: NaN
-  openMode: 0
-  closeButton: {fileID: 274832872}
-  closeMode: 0
   outroAnimation:
     _FadeDuration: 0.25
     _Speed: 1
@@ -433,6 +429,8 @@ MonoBehaviour:
       _Names: []
     _Clip: {fileID: 0}
     _NormalizedStartTime: NaN
+  type: 0
+  closeButton: {fileID: 274832872}
   references:
     version: 2
     RefIds: []
@@ -842,7 +840,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 274832874}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -1270,6 +1268,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377576981}
   m_CullTransparentMesh: 1
+--- !u!1 &424929145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 424929147}
+  - component: {fileID: 424929146}
+  m_Layer: 0
+  m_Name: Lobby Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &424929146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424929145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9825e7a2be52cdd4590056d086479563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PGS.LobbyViewManager
+  mainView: {fileID: 0}
+--- !u!4 &424929147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424929145}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &477895167
 GameObject:
   m_ObjectHideFlags: 0
@@ -1976,7 +2019,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 708431410}
-  - component: {fileID: 708431411}
+  - component: {fileID: 708431413}
+  - component: {fileID: 708431412}
   m_Layer: 0
   m_Name: Lobby Main View
   m_TagString: Untagged
@@ -2000,7 +2044,7 @@ Transform:
   - {fileID: 1829807923}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &708431411
+--- !u!114 &708431412
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2009,11 +2053,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 708431409}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18b7a791ab67def4dbc6234e1bcca4dc, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a933db0b61db3548bc66f91de22e9a6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PGS.LobbyMainView
-  newGameButton: {fileID: 1684645818}
-  continueGameButton: {fileID: 2078794416}
+  m_EditorClassIdentifier: Assembly-CSharp::PGS.ButtonTriggerDefinition
+  trigger: {fileID: 2078794416}
+  window: {fileID: 211145030}
+--- !u!114 &708431413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708431409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4016f0423eff7c041855ce19ebc739a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PGS.LobbySceneState
+  newGameButton: {fileID: 0}
+  continueGameButton: {fileID: 0}
+  testMenu: {fileID: 0}
 --- !u!1 &747487640
 GameObject:
   m_ObjectHideFlags: 0
@@ -2023,6 +2082,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 747487641}
+  - component: {fileID: 747487642}
   m_Layer: 0
   m_Name: Continue Game View
   m_TagString: Untagged
@@ -2039,13 +2099,28 @@ Transform:
   m_GameObject: {fileID: 747487640}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.95911, y: 11.6341, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1516349702}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &747487642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747487640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4016f0423eff7c041855ce19ebc739a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PGS.LobbySceneState
+  newGameButton: {fileID: 0}
+  continueGameButton: {fileID: 0}
+  testMenu: {fileID: 0}
 --- !u!1 &878943629
 GameObject:
   m_ObjectHideFlags: 0
@@ -2164,6 +2239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726f7760504f46e4fb6d25038187d818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PGS.TestDialog
+  openMode: 0
   introAnimation:
     _FadeDuration: 0.25
     _Speed: 1
@@ -2173,9 +2249,6 @@ MonoBehaviour:
       _Names: []
     _Clip: {fileID: 0}
     _NormalizedStartTime: NaN
-  openMode: 0
-  closeButton: {fileID: 2102981376}
-  closeMode: 0
   outroAnimation:
     _FadeDuration: 0.25
     _Speed: 1
@@ -4627,3 +4700,4 @@ SceneRoots:
   - {fileID: 144256894}
   - {fileID: 708431410}
   - {fileID: 747487641}
+  - {fileID: 424929147}

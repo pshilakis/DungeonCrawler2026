@@ -10,7 +10,7 @@ namespace PGS
 	[System.Serializable]
 	public class LobbyState : GameState, IState, IControlInput, IRequireLoadScreen
 	{
-		private LobbyMainView m_View;
+		private SceneStateManager<LobbyState, LobbySceneState> m_SceneManager;
 
 		public static Action<MapData> OnNewGameButtonPressed; //Passes the desired MapData when triggered
 		public static Action OnContinueButtonPressed;
@@ -24,20 +24,14 @@ namespace PGS
 		#region Unity Lifecycle
 		private void Awake()
 		{
-			LobbyMainView.RequestOwner += ClaimOwner;
+			LobbySceneStateManager.OnSceneManagerOwnerRequest += RegisterSceneManager;
 		}
 
 		private void OnDestroy()
 		{
-			LobbyMainView.RequestOwner -= ClaimOwner;
+			LobbySceneStateManager.OnSceneManagerOwnerRequest -= RegisterSceneManager;
 		}
 		#endregion
-
-		private LobbyState ClaimOwner(GameView<LobbyState> view)
-		{
-			m_View = view as LobbyMainView;
-			return this;
-		}
 
 		#region IState
 		public override async UniTask Enter()
@@ -56,7 +50,7 @@ namespace PGS
 
 		public override async UniTask Exit()
 		{
-			//LobbyViewManager.OnInitialize -= RegisterManagerToState;
+			
 			gameObject.SetActive(false);
 		}
 		#endregion
@@ -72,5 +66,12 @@ namespace PGS
 			GameManager.Instance.InputRelay.Input.Controls.UI.Disable(); //Enable lobby UI input actionmap
 		}
 		#endregion
+
+		private void RegisterSceneManager(SceneStateManager<LobbyState, LobbySceneState> manager)
+		{
+			m_SceneManager = manager;
+
+			//Subscribe to scenemanager events
+		}
 	}
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PGS
 {
-    public class PlayerTurnSelectView : GameView<PlayerTurnSelectState>
+    public class PlayerTurnSelectView : SceneState<PlayerTurnSelectState>
     {
         [SerializeField] private PlayerInfoCard playerInfoCardPrefab;
         [SerializeField] private Transform playerPortraitContainer;

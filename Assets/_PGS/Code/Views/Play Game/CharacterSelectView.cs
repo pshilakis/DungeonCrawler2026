@@ -6,7 +6,7 @@ using PGS.UI;
 
 namespace PGS
 {
-    public class CharacterSelectView : GameView<CharacterSelectState>
+    public class CharacterSelectView : SceneState<CharacterSelectState>
     {
 		[SerializeField] private ButtonHandler btnAddNewCharacter;
 		[SerializeField] private TMP_InputField characterNameField;
@@ -18,12 +18,12 @@ namespace PGS
 
 		public static Action<CharacterData> OnNewCharacterCreated;
 
-		protected override void OnEnable()
+		protected void OnEnable()
 		{
 			btnAddNewCharacter.OnRelease += AddCharacter;
 		}
 
-		protected override void OnDisable()
+		protected void OnDisable()
 		{
 			btnAddNewCharacter.OnRelease -= AddCharacter;
 		}

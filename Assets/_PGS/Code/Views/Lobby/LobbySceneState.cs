@@ -4,24 +4,24 @@ using PGS.Utilities;
 
 namespace PGS
 {
-    public class LobbyMainView : GameView<LobbyState>
+    public class LobbySceneState : SceneState<LobbyState>
     {
 		[SerializeField] private GameSelectButtonOption newGameButton;
         //[SerializeField] private ButtonHandler newGameButton;
         [SerializeField] private ButtonHandler continueGameButton;
 
-		protected override void OnEnable()
+		[SerializeField] private ButtonTriggerDefinition testMenu;
+
+		protected void OnEnable()
 		{
-			base.OnEnable();
 			newGameButton.button.OnPress += LoadNewGame;
-			continueGameButton.OnPress += LoadExistingGame;
+			//continueGameButton.OnPress += LoadExistingGame;
 		}
 
-		protected override void OnDisable()
+		protected void OnDisable()
 		{
 			newGameButton.button.OnPress -= LoadNewGame;
-			continueGameButton.OnPress -= LoadExistingGame;
-			base.OnDisable();
+			//continueGameButton.OnPress -= LoadExistingGame;
 		}
 
 		private void LoadNewGame()
